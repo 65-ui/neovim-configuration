@@ -7,7 +7,7 @@ code-server
 neofetch
 htop
 lazygit
-yarn
+yarn/global
 node_modules
 pack~.json
 yarn.lock
