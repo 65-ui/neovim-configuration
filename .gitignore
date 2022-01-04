@@ -8,3 +8,6 @@ neofetch
 htop
 lazygit
 yarn
+node_modules
+pack~.json
+yarn.lock
