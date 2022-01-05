@@ -462,7 +462,7 @@ func! CompileRunGcc()
 		silent! exec "CocCommand flutter.dev.openDevLog"
 	elseif &filetype == 'javascript'
 		 exec '!npm start'set splitbelow
-		 :sp
+		 ":sp
      exec '!node %'
 	   ":term export DEBUG="INFO,ERROR,WARNING";node --trace-warnings .
 	elseif &filetype == 'go'
