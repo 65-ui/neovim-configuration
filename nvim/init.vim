@@ -461,7 +461,7 @@ func! CompileRunGcc()
 		exec "CocCommand flutter.run -d ".g:flutter_default_device." ".g:flutter_run_args
 		silent! exec "CocCommand flutter.dev.openDevLog"
 	elseif &filetype == 'javascript'
-		 exec '!npm start'set splitbelow
+		 "exec '!npm start'set splitbelow
 		 ":sp
      exec '!node %'
 	   ":term export DEBUG="INFO,ERROR,WARNING";node --trace-warnings .
