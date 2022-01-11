@@ -228,6 +228,3 @@ class extracthere(Command):
         obj.signal_bind('after', refresh)
         self.fm.loader.add(obj)
 
-
-# 下载解压缩工具
-# sudo pacman -S thunar-archive-plugin xarchiver zip unzip p7zip arj lzop cpio unrar
