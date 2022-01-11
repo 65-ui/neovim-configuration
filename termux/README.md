@@ -99,5 +99,5 @@ sudo pacman -S  --noconfirm python-pynvim
 # 解压缩工具
 
 ```shell
-sudo pacman -S thunar-archive-plugin xarchiver zip unzip p7 zip arj lzop cpio unrar
+sudo pacman -S thunar-archive-plugin xarchiver zip unzip p7zip arj lzop cpio unrar
 ```
