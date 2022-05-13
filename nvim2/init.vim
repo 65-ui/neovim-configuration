@@ -515,7 +515,7 @@ Plug 'pechorin/any-jump.vim'
 Plug 'liuchengxu/vista.vim'
 
 " Debugger  (调试器)
-Plug 'puremourning/vimspector', {'do': './install_gadget.py  --enable-python --force-enable-node'}
+" Plug 'puremourning/vimspector', {'do': './install_gadget.py  --enable-python --force-enable-node'}
 
 " Auto Complete   (自动完成)
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
