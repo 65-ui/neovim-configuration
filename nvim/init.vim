@@ -473,7 +473,8 @@ func! CompileRunGcc()
 endfunc
 
 
-" ===
+
+"===
 " === Install Plugins with Vim-Plug
 " ===
 
@@ -514,7 +515,7 @@ Plug 'pechorin/any-jump.vim'
 Plug 'liuchengxu/vista.vim'
 
 " Debugger  (调试器)
-Plug 'puremourning/vimspector', {'do': './install_gadget.py  --enable-python --force-enable-node'}
+" Plug 'puremourning/vimspector', {'do': './install_gadget.py  --enable-python --force-enable-node'}
 
 " Auto Complete   (自动完成)
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -598,7 +599,7 @@ Plug 'dkarter/bullets.vim'
 "Plug 'Raimondi/delimitMate'
 Plug 'jiangmiao/auto-pairs'
 Plug 'mg979/vim-visual-multi'
-Plug 'tomtom/tcomment_vim' " in <space>cn to comment a line
+" Plug 'tomtom/tcomment_vim' " in <space>cn to comment a line
 Plug 'theniceboy/antovim' " gs to switch
 Plug 'tpope/vim-surround' " type yskw' to wrap the word with '' or type cs'` to change 'word' to `word`
 Plug 'gcmt/wildfire.vim' " in Visual mode, type k' to select all text in '', or type k) k] k} kp
@@ -660,12 +661,95 @@ Plug 'wincent/terminus'
 
 Plug 'mhinz/vim-startify'
 
+" 自动保存
+Plug 'Pocco81/AutoSave.nvim'
+Plug 'numToStr/Comment.nvim'
+
+
 call plug#end()
 set re=0
 
 " experimental
 set lazyredraw
 "set regexpengine=1
+
+" ===
+" === 自动保存
+" ===
+lua << EOF
+local autosave = require("autosave")
+
+autosave.setup(
+    {
+        enabled = true,
+        execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
+        events = {"InsertLeave", "TextChanged"},
+        conditions = {
+            exists = true,
+            filename_is_not = {},
+            filetype_is_not = {},
+            modifiable = true
+        },
+        write_all_buffers = true,
+        on_off_commands = false,
+        clean_command_line_interval = 0,
+        debounce_delay = 135
+    }
+)
+EOF
+
+" ===
+" === 注释插件
+" ===
+lua << EOF
+require('Comment').setup(
+{
+        toggler = {
+            -- 切换行注释
+            line = "gcc",
+            --- 切换块注释
+            block = "gCC"
+        },
+        opleader = {
+            -- 可视模式下的行注释
+            line = "gc",
+            -- 可视模式下的块注释
+            block = "gC"
+        },
+        extra = {
+            -- 在当前行上方新增行注释
+            above = "gcO",
+            -- 在当前行下方新增行注释
+            below = "gco",
+            -- 在当前行行尾新增行注释
+            eol = "gcA"
+        },
+        -- 根据当前光标所在上下文判断不同类别的注释
+        -- 由 nvim-ts-context-commentstring  提供
+        pre_hook = function(ctx)
+            -- Only calculate commentstring for tsx filetypes
+            if vim.bo.filetype == "typescriptreact" then
+                local U = require("Comment.utils")
+                -- Detemine whether to use linewise or blockwise commentstring
+                local type = ctx.ctype == U.ctype.line and "__default" or "__multiline"
+                -- Determine the location where to calculate commentstring from
+                local location = nil
+                if ctx.ctype == U.ctype.block then
+                    location = comment_string.utils.get_cursor_location()
+                elseif ctx.cmotion == U.cmotion.v or ctx.cmotion == U.cmotion.V then
+                    location = comment_string.utils.get_visual_start_location()
+                end
+                return comment_string.calculate_commentstring(
+                    {
+                        key = type,
+                        location = location
+                    }
+                )
+            end
+        end
+    }
+)
+EOF
 
 
 " ===
@@ -1281,21 +1365,21 @@ noremap \p :echo expand('%:p')<CR>
 " ===
 " === vimspector (vim 调试工具)
 " ===
-let g:vimspector_enable_mappings = 'HUMAN'
-function! s:read_template_into_buffer(template)
-	" has to be a function to avoid the extra space fzf#run insers otherwise
-	execute '0r ~/.config/nvim/sample_vimspector_json/'.a:template
-endfunction
-command! -bang -nargs=* LoadVimSpectorJsonTemplate call fzf#run({
-			\   'source': 'ls -1 ~/.config/nvim/sample_vimspector_json',
-			\   'down': 20,
-			\   'sink': function('<sid>read_template_into_buffer')
-			\ })
-" noremap <leader>vs :tabe .vimspector.json<CR>:LoadVimSpectorJsonTemplate<CR>
-sign define vimspectorBP text=☛ texthl=Normal
-sign define vimspectorBPDisabled text=☞ texthl=Normal
-sign define vimspectorPC text=🔶 texthl=SpellBad
-
+" let g:vimspector_enable_mappings = 'HUMAN'
+" function! s:read_template_into_buffer(template)
+" 	" has to be a function to avoid the extra space fzf#run insers otherwise
+" 	execute '0r ~/.config/nvim/sample_vimspector_json/'.a:template
+" endfunction
+" command! -bang -nargs=* LoadVimSpectorJsonTemplate call fzf#run({
+" 			\   'source': 'ls -1 ~/.config/nvim/sample_vimspector_json',
+" 			\   'down': 20,
+" 			\   'sink': function('<sid>read_template_into_buffer')
+" 			\ })
+" " noremap <leader>vs :tabe .vimspector.json<CR>:LoadVimSpectorJsonTemplate<CR>
+" sign define vimspectorBP text=☛ texthl=Normal
+" sign define vimspectorBPDisabled text=☞ texthl=Normal
+" sign define vimspectorPC text=🔶 texthl=SpellBad
+"
 
 " ===
 " === reply.vim
@@ -1384,13 +1468,13 @@ let g:dartfmt_options = ["-l 100"]
 " ===
 " === tcomment_vim
 " ===
-nnoremap ci cl
-let g:tcomment_textobject_inlinecomment = ''
-nmap <LEADER>cn g>c
-vmap <LEADER>cn g>
-nmap <LEADER>cu g<c
-vmap <LEADER>cu g<
-
+" nnoremap ci cl
+" let g:tcomment_textobject_inlinecomment = ''
+" nmap <LEADER>cn g>c
+" vmap <LEADER>cn g>
+" nmap <LEADER>cu g<c
+" vmap <LEADER>cu g<
+"
 
 " ===
 " === vim-move
