@@ -17,7 +17,7 @@
 	"suggest.floatEnable": true,
 	"suggest.detailField": "preview",
 	"suggest.snippetIndicator": "",
-	"suggest.triggerCompletionWait": 100,
+	"suggest.triggerCompletionWait": 50,
 	"suggest.echodocSupport": true,
 	"suggest.completionItemKindLabels": {
 		"class": "\uf0e8",
@@ -75,13 +75,8 @@
 		"html",
 		"css",
 		"json",
-		"java",
 		"python",
 		"vue",
-		"svelte",
-		"c",
-		"cs",
-		"prisma",
 		"markdown",
 		"vim"
 	],

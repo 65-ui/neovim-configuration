@@ -473,12 +473,13 @@ func! CompileRunGcc()
 endfunc
 
 
-" ===
+
+"===
 " === Install Plugins with Vim-Plug
 " ===
 
 call plug#begin('$HOME/.config/nvim/plugged')
-
+" 模糊查找器
 " Plug 'LoricAndre/fzterm.nvim'
 
 " Testing my own plugin
@@ -489,8 +490,11 @@ Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'nvim-treesitter/playground'
 
 " Pretty Dress   (美化)
-Plug 'theniceboy/nvim-deus'
+" Plug 'theniceboy/nvim-deus'
 "Plug 'arzg/vim-colors-xcode'
+" Plug 'navarasu/onedark.nvim'
+" Plug 'shaunsingh/solarized.nvim'
+Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 
 " Status line  (状态行)
 Plug 'theniceboy/eleline.vim'
@@ -514,7 +518,7 @@ Plug 'pechorin/any-jump.vim'
 Plug 'liuchengxu/vista.vim'
 
 " Debugger  (调试器)
-Plug 'puremourning/vimspector', {'do': './install_gadget.py  --enable-python --force-enable-node'}
+" Plug 'puremourning/vimspector', {'do': './install_gadget.py  --enable-python --force-enable-node'}
 
 " Auto Complete   (自动完成)
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -598,7 +602,7 @@ Plug 'dkarter/bullets.vim'
 "Plug 'Raimondi/delimitMate'
 Plug 'jiangmiao/auto-pairs'
 Plug 'mg979/vim-visual-multi'
-Plug 'tomtom/tcomment_vim' " in <space>cn to comment a line
+" Plug 'tomtom/tcomment_vim' " in <space>cn to comment a line
 Plug 'theniceboy/antovim' " gs to switch
 Plug 'tpope/vim-surround' " type yskw' to wrap the word with '' or type cs'` to change 'word' to `word`
 Plug 'gcmt/wildfire.vim' " in Visual mode, type k' to select all text in '', or type k) k] k} kp
@@ -660,12 +664,109 @@ Plug 'wincent/terminus'
 
 Plug 'mhinz/vim-startify'
 
+" 自动保存
+Plug 'Pocco81/AutoSave.nvim'
+Plug 'numToStr/Comment.nvim'
+
+" Plug 'neovim/nvim-lspconfig'
+" Plug 'hrsh7th/nvim-cmp'  "代码补全核心插件，下面都是增强补全的体验插件
+" Plug 'onsails/lspkind-nvim' "为补全添加类似 vscode 的图标
+" Plug 'hrsh7th/vim-vsnip'   "vsnip 引擎，用于获得代码片段支持
+" Plug 'hrsh7th/cmp-vsnip'    "适用于 vsnip 的代码片段源
+" Plug 'hrsh7th/cmp-nvim-lsp'  "替换内置 omnifunc，获得更多补全
+" Plug 'hrsh7th/cmp-path' "路径补全
+" Plug 'hrsh7th/cmp-buffer' "缓冲区补全
+" Plug 'hrsh7th/cmp-cmdline' "命令补全
+" Plug 'f3fora/cmp-spell' "拼写建议
+" Plug 'rafamadriz/friendly-snippets' "提供多种语言的代码片段
+" Plug 'lukas-reineke/cmp-under-comparator' " 让补全结果的排序更加智能
+ " Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' } "tabnine 源,提供基于 AI 的智能补全
+ " Plug 'aca/completion-tabnine', { 'do': './install.sh'  }
+
 call plug#end()
 set re=0
 
 " experimental
 set lazyredraw
 "set regexpengine=1
+
+" ===
+" === 自动保存
+" ===
+lua << EOF
+local autosave = require("autosave")
+
+autosave.setup(
+    {
+        enabled = true,
+        execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
+        events = {"InsertLeave", "TextChanged"},
+        conditions = {
+            exists = true,
+            filename_is_not = {},
+            filetype_is_not = {},
+            modifiable = true
+        },
+        write_all_buffers = true,
+        on_off_commands = false,
+        clean_command_line_interval = 0,
+        debounce_delay = 2000
+    }
+)
+EOF
+
+" ===
+" === 注释插件
+" ===
+lua << EOF
+require('Comment').setup(
+{
+        toggler = {
+            -- 切换行注释
+            line = "gcc",
+            --- 切换块注释
+            block = "gCC"
+        },
+        opleader = {
+            -- 可视模式下的行注释
+            line = "gc",
+            -- 可视模式下的块注释
+            block = "gC"
+        },
+        extra = {
+            -- 在当前行上方新增行注释
+            above = "gcO",
+            -- 在当前行下方新增行注释
+            below = "gco",
+            -- 在当前行行尾新增行注释
+            eol = "gcA"
+        },
+        -- 根据当前光标所在上下文判断不同类别的注释
+        -- 由 nvim-ts-context-commentstring  提供
+        pre_hook = function(ctx)
+            -- Only calculate commentstring for tsx filetypes
+            if vim.bo.filetype == "typescriptreact" then
+                local U = require("Comment.utils")
+                -- Detemine whether to use linewise or blockwise commentstring
+                local type = ctx.ctype == U.ctype.line and "__default" or "__multiline"
+                -- Determine the location where to calculate commentstring from
+                local location = nil
+                if ctx.ctype == U.ctype.block then
+                    location = comment_string.utils.get_cursor_location()
+                elseif ctx.cmotion == U.cmotion.v or ctx.cmotion == U.cmotion.V then
+                    location = comment_string.utils.get_visual_start_location()
+                end
+                return comment_string.calculate_commentstring(
+                    {
+                        key = type,
+                        location = location
+                    }
+                )
+            end
+        end
+    }
+)
+EOF
 
 
 " ===
@@ -679,9 +780,11 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 "let g:oceanic_next_terminal_italic = 1
 "let g:one_allow_italics = 1
 
+
+" colorscheme onedark
 "color dracula
 "color one
-color deus
+" color deus
 "color gruvbox
 "let ayucolor="light"
 "color ayu
@@ -696,6 +799,107 @@ hi NonText ctermfg=gray guifg=grey10
 "hi Normal ctermfg=252 ctermbg=none
 
 " ===================== Start of Plugin Settings =====================
+
+
+" ===
+" === onedark
+" ===
+" let g:onedark_config = {
+" 	    \ 'style': 'darker',
+" 	    \}
+" colorscheme onedark
+"
+
+" ===
+" === secold
+" ===
+" let g:solarized_italic_comments = v:true
+" let g:solarized_italic_keywords = v:true
+" let g:solarized_italic_functions = v:true
+" let g:solarized_italic_variables = v:false
+" let g:solarized_contrast = v:true
+" let g:solarized_borders = v:false
+" let g:solarized_disable_background = v:false
+" colorscheme solarized
+
+
+
+" ===
+" === Plug 'catppuccin/nvim', {'as': 'catppuccin'}
+" ===
+
+lua << EOF
+local catppuccin = require("catppuccin")
+catppuccin.setup(
+{
+   transparent_background = false,
+   term_colors = false,
+   styles = {
+	  comments = "NONE",
+	  functions = "NONE",
+	  keywords = "NONE",
+	  strings = "NONE",
+	  variables = "NONE",
+   },
+  integrations = {
+	  treesitter = true,
+	    native_lsp = {
+		    enabled = true,
+		    virtual_text = {
+			    errors = "italic",
+			    hints = "italic",
+			    warnings = "italic",
+			    information = "italic",
+		},
+--		underlines = {
+--	    errors = "underlinefalse		hints = "underline",
+--      warnings = "underline",
+--			information = "underline",
+--	    },
+	  },
+	  lsp_trouble = false,
+	  cmp = true,
+	  lsp_saga = false,
+	  gitgutter = false,
+	  gitsigns = true,
+	  telescope = true,
+	  nvimtree = {
+		   enabled = true,
+		   show_root = false,
+		   transparent_panel = false,
+	   },
+	  neotree = {
+		  enabled = false,
+		  show_root = false,
+		  transparent_panel = false,
+	   },
+	  which_key = false,
+	     indent_blankline = {
+		   enabled = true,
+		   colored_indent_levels = false,
+	   },
+	  dashboard = true,
+	  neogit = false,
+	  vim_sneak = false,
+	  fern = false,
+	  barbar = false,
+	  bufferline = true,
+	  markdown = true,
+	  lightspeed = false,
+	  ts_rainbow = false,
+	  hop = false,
+	  notify = true,
+	  telekasten = true,
+	  symbols_outline = true,
+  }
+}
+)
+
+EOF
+colorscheme catppuccin
+
+
+
 
 " ===
 " === eleline.vim
@@ -1281,21 +1485,21 @@ noremap \p :echo expand('%:p')<CR>
 " ===
 " === vimspector (vim 调试工具)
 " ===
-let g:vimspector_enable_mappings = 'HUMAN'
-function! s:read_template_into_buffer(template)
-	" has to be a function to avoid the extra space fzf#run insers otherwise
-	execute '0r ~/.config/nvim/sample_vimspector_json/'.a:template
-endfunction
-command! -bang -nargs=* LoadVimSpectorJsonTemplate call fzf#run({
-			\   'source': 'ls -1 ~/.config/nvim/sample_vimspector_json',
-			\   'down': 20,
-			\   'sink': function('<sid>read_template_into_buffer')
-			\ })
-" noremap <leader>vs :tabe .vimspector.json<CR>:LoadVimSpectorJsonTemplate<CR>
-sign define vimspectorBP text=☛ texthl=Normal
-sign define vimspectorBPDisabled text=☞ texthl=Normal
-sign define vimspectorPC text=🔶 texthl=SpellBad
-
+" let g:vimspector_enable_mappings = 'HUMAN'
+" function! s:read_template_into_buffer(template)
+" 	" has to be a function to avoid the extra space fzf#run insers otherwise
+" 	execute '0r ~/.config/nvim/sample_vimspector_json/'.a:template
+" endfunction
+" command! -bang -nargs=* LoadVimSpectorJsonTemplate call fzf#run({
+" 			\   'source': 'ls -1 ~/.config/nvim/sample_vimspector_json',
+" 			\   'down': 20,
+" 			\   'sink': function('<sid>read_template_into_buffer')
+" 			\ })
+" " noremap <leader>vs :tabe .vimspector.json<CR>:LoadVimSpectorJsonTemplate<CR>
+" sign define vimspectorBP text=☛ texthl=Normal
+" sign define vimspectorBPDisabled text=☞ texthl=Normal
+" sign define vimspectorPC text=🔶 texthl=SpellBad
+"
 
 " ===
 " === reply.vim
@@ -1384,13 +1588,13 @@ let g:dartfmt_options = ["-l 100"]
 " ===
 " === tcomment_vim
 " ===
-nnoremap ci cl
-let g:tcomment_textobject_inlinecomment = ''
-nmap <LEADER>cn g>c
-vmap <LEADER>cn g>
-nmap <LEADER>cu g<c
-vmap <LEADER>cu g<
-
+" nnoremap ci cl
+" let g:tcomment_textobject_inlinecomment = ''
+" nmap <LEADER>cn g>c
+" vmap <LEADER>cn g>
+" nmap <LEADER>cu g<c
+" vmap <LEADER>cu g<
+"
 
 " ===
 " === vim-move
@@ -1424,10 +1628,12 @@ let g:agit_no_default_mappings = 1
 " ===
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = {"dart", "java"},     -- one of "all", "language", or a list of languages
+	-- :TSInstallInfo 命令查看支持的语言
+  ensure_installed = {"html", "css", "json", "javascript", "vim", "vue", "python"}, 
+	  -- 启用代码高亮功能
   highlight = {
     enable = true,    
-    disable = { "c", "rust" },  -- list of language that will be disabled
+		additional_vim_regex_highlighting = false
   },
 }
 EOF
