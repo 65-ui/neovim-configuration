@@ -211,7 +211,7 @@ add-fpath|fpath [-f|--front] \
 run [-l] [plugin] {command}   – runs the given command in the given plugin's directory; if the option -l will be given then the plugin should be skipped – the option will cause the previous plugin to be reused
 ENDOFZINITHELP
 ########
-zinit ice lucid wait=1 ascompletion && zinit snippet /home/sansui/.config/tmoe-zsh/git/share/completion/_zshtheme
+zinit ice lucid wait=1 ascompletion && zinit snippet /home/menghuan/.config/tmoe-zsh/git/share/completion/_zshtheme
 [[ $(command -v fzf) ]] && zinit ice lucid pick"fzf-tab.zsh" && zinit light _local/fzf-tab  #aloxaf:fzf-tab 是一个能够极大提升 zsh 补全体验的插件。它通过 hook zsh 补全系统的底层函数 compadd 来截获补全列表，从而实现了在补全命令行参数、变量、目录栈和文件时都能使用 fzf 进行选择的功能。Replace zsh's default completion selection menu with fzf!
 
 export EDITOR=nvim

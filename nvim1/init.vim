@@ -91,8 +91,8 @@ set notimeout       " 默认超时1000
 set viewoptions=cursor,folds,slash,unix
 
 
-set wrap           " 启用自动折行 这些字符是“^I!@*-+_;:,./?”
-"set nowrap           " 取消自动折行
+" set wrap           " 启用自动折行 这些字符是“^I!@*-+_;:,./?”
+set nowrap           " 取消自动折行
 "set linebreak        " 自定义折行 set breakat-=_ set showbreak=->
 "set nolinebreak      " 取消自定义折行
 set tw=0            "当输入超过78个字符并按下空格键时会自动换行.将textwidth设成0关闭该功能
@@ -490,15 +490,17 @@ Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'nvim-treesitter/playground'
 
 " Pretty Dress   (美化)
-" Plug 'theniceboy/nvim-deus'
+Plug 'theniceboy/nvim-deus'
 "Plug 'arzg/vim-colors-xcode'
 " Plug 'navarasu/onedark.nvim'
 " Plug 'shaunsingh/solarized.nvim'
-Plug 'catppuccin/nvim', {'as': 'catppuccin'}
+" Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 
 " Status line  (状态行)
 Plug 'theniceboy/eleline.vim'
 "Plug 'ojroques/vim-scrollstatus'
+" Plug 'feline-nvim/feline.nvim'
+
 
 " General Highlighter   (自定义颜色)
 Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
@@ -683,12 +685,94 @@ Plug 'numToStr/Comment.nvim'
  " Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' } "tabnine 源,提供基于 AI 的智能补全
  " Plug 'aca/completion-tabnine', { 'do': './install.sh'  }
 
+Plug 'nvim-lua/plenary.nvim'
+Plug 'folke/todo-comments.nvim'
+" Plug 'https://github.com/onsails/lspkind.nvim'
+Plug 'folke/twilight.nvim'
+
 call plug#end()
 set re=0
 
 " experimental
 set lazyredraw
 "set regexpengine=1
+
+" ===
+" === New Section
+" ===
+" NOTE: Twilight: 切换暮光 TwilightEnable: 启用暮光 TwilightDisable: 禁用暮光
+lua << EOF
+require("twilight").setup {}
+EOF
+
+" ===
+" === hexokinase
+" ===
+" NOTE: ['virtual']，['sign_column'],['foreground'],['foregroundfull'],['background'],['backgroundfull']
+let g:Hexokinase_highlighters = ['virtual']
+
+
+" ===
+" === TODO
+" ===
+lua << EOF
+require("todo-comments").setup {
+  signs = true, -- show icons in the signs column
+  sign_priority = 8, -- sign priority
+  -- keywords recognized as todo comments
+  keywords = {
+    FIX = {
+      icon = " ", -- icon used for the sign, and in search results
+      color = "error", -- can be a hex color, or a named color (see below)
+      alt = { "FIXME", "BUG", "FIXIT", "ISSUE" }, -- a set of other keywords that all map to this FIX keywords
+      -- signs = false, -- configure signs for some keywords individually
+    },
+    TODO = { icon = " ", color = "info" },
+    HACK = { icon = " ", color = "warning" },
+    WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
+    PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+    NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
+  },
+  merge_keywords = true, -- when true, custom keywords will be merged with the defaults
+  -- highlighting of the line containing the todo comment
+  -- * before: highlights before the keyword (typically comment characters)
+  -- * keyword: highlights of the keyword
+  -- * after: highlights after the keyword (todo text)
+  highlight = {
+    before = "", -- "fg" or "bg" or empty
+    keyword = "wide", -- "fg", "bg", "wide" or empty. (wide is the same as bg, but will also highlight surrounding characters)
+    after = "fg", -- "fg" or "bg" or empty
+    pattern = [[.*<(KEYWORDS)\s*:]], -- pattern or table of patterns, used for highlightng (vim regex)
+    comments_only = true, -- uses treesitter to match keywords in comments only
+    max_line_len = 400, -- ignore lines longer than this
+    exclude = {}, -- list of file types to exclude highlighting
+  },
+  -- list of named colors where we try to extract the guifg from the
+  -- list of hilight groups or use the hex color if hl not found as a fallback
+  colors = {
+    error = { "DiagnosticError", "ErrorMsg", "#DC2626" },
+    warning = { "DiagnosticWarning", "WarningMsg", "#FBBF24" },   
+    info = { "DiagnosticInfo", "#2563EB" },
+    hint = { "DiagnosticHint", "#10B981" },
+    default = { "Identifier", "#7C3AED" },
+  },
+  search = {
+    command = "rg",
+    args = {
+      "--color=never",
+      "--no-heading",
+      "--with-filename",
+      "--line-number",
+      "--column",
+    },
+    -- regex that will be used to match keywords.
+    -- don't replace the (KEYWORDS) placeholder
+    pattern = [[\b(KEYWORDS):]], -- ripgrep regex
+    -- pattern = [[\b(KEYWORDS)\b]], -- match without the extra colon. You'll likely get false positives
+  },
+}
+EOF
+
 
 " ===
 " === 自动保存
@@ -710,7 +794,7 @@ autosave.setup(
         write_all_buffers = true,
         on_off_commands = false,
         clean_command_line_interval = 0,
-        debounce_delay = 2000
+        debounce_delay = 5000
     }
 )
 EOF
@@ -784,7 +868,7 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 " colorscheme onedark
 "color dracula
 "color one
-" color deus
+color deus
 "color gruvbox
 "let ayucolor="light"
 "color ayu
@@ -828,76 +912,76 @@ hi NonText ctermfg=gray guifg=grey10
 " === Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 " ===
 
-lua << EOF
-local catppuccin = require("catppuccin")
-catppuccin.setup(
-{
-   transparent_background = false,
-   term_colors = false,
-   styles = {
-	  comments = "NONE",
-	  functions = "NONE",
-	  keywords = "NONE",
-	  strings = "NONE",
-	  variables = "NONE",
-   },
-  integrations = {
-	  treesitter = true,
-	    native_lsp = {
-		    enabled = true,
-		    virtual_text = {
-			    errors = "italic",
-			    hints = "italic",
-			    warnings = "italic",
-			    information = "italic",
-		},
---		underlines = {
---	    errors = "underlinefalse		hints = "underline",
---      warnings = "underline",
---			information = "underline",
---	    },
-	  },
-	  lsp_trouble = false,
-	  cmp = true,
-	  lsp_saga = false,
-	  gitgutter = false,
-	  gitsigns = true,
-	  telescope = true,
-	  nvimtree = {
-		   enabled = true,
-		   show_root = false,
-		   transparent_panel = false,
-	   },
-	  neotree = {
-		  enabled = false,
-		  show_root = false,
-		  transparent_panel = false,
-	   },
-	  which_key = false,
-	     indent_blankline = {
-		   enabled = true,
-		   colored_indent_levels = false,
-	   },
-	  dashboard = true,
-	  neogit = false,
-	  vim_sneak = false,
-	  fern = false,
-	  barbar = false,
-	  bufferline = true,
-	  markdown = true,
-	  lightspeed = false,
-	  ts_rainbow = false,
-	  hop = false,
-	  notify = true,
-	  telekasten = true,
-	  symbols_outline = true,
-  }
-}
-)
-
-EOF
-colorscheme catppuccin
-
+" lua << EOF
+" local catppuccin = require("catppuccin")
+" catppuccin.setup(
+" {
+"    transparent_background = false,
+"    term_colors = false,
+"    styles = {
+" 	  comments = "NONE",
+" 	  functions = "NONE",
+" 	  keywords = "NONE",
+" 	  strings = "NONE",
+" 	  variables = "NONE",
+"    },
+"   integrations = {
+" 	  treesitter = true,
+" 	    native_lsp = {
+" 		    enabled = true,
+" 		    virtual_text = {
+" 			    errors = "italic",
+" 			    hints = "italic",
+" 			    warnings = "italic",
+" 			    information = "italic",
+" 		},
+" --		underlines = {
+" --	    errors = "underlinefalse		hints = "underline",
+" --      warnings = "underline",
+" --			information = "underline",
+" --	    },
+" 	  },
+" 	  lsp_trouble = false,
+" 	  cmp = true,
+" 	  lsp_saga = false,
+" 	  gitgutter = false,
+" 	  gitsigns = true,
+" 	  telescope = true,
+" 	  nvimtree = {
+" 		   enabled = true,
+" 		   show_root = false,
+" 		   transparent_panel = false,
+" 	   },
+" 	  neotree = {
+" 		  enabled = false,
+" 		  show_root = false,
+" 		  transparent_panel = false,
+" 	   },
+" 	  which_key = false,
+" 	     indent_blankline = {
+" 		   enabled = true,
+" 		   colored_indent_levels = false,
+" 	   },
+" 	  dashboard = true,
+" 	  neogit = false,
+" 	  vim_sneak = false,
+" 	  fern = false,
+" 	  barbar = false,
+" 	  bufferline = true,
+" 	  markdown = true,
+" 	  lightspeed = false,
+" 	  ts_rainbow = false,
+" 	  hop = false,
+" 	  notify = true,
+" 	  telekasten = true,
+" 	  symbols_outline = true,
+"   }
+" }
+" )
+"
+" EOF
+" colorscheme catppuccin
+"
 
 
 
@@ -940,6 +1024,7 @@ let g:coc_global_extensions = [
 	\ 'coc-gitignore',
 	\ 'coc-html',
 	\ 'coc-htmlhint',
+  \ 'coc-html-css-support',
 	\ 'coc-highlight',
 	\ 'coc-emmet',
 	\ 'coc-import-cost',
@@ -953,6 +1038,7 @@ let g:coc_global_extensions = [
 	\ 'coc-translator',
 	\ 'coc-tsserver',
 	\ 'coc-vetur',
+	\ 'coc-sumneko-lua',
 	\ 'coc-vimlsp']
 
 set updatetime=100
@@ -1629,7 +1715,7 @@ let g:agit_no_default_mappings = 1
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
 	-- :TSInstallInfo 命令查看支持的语言
-  ensure_installed = {"html", "css", "json", "javascript", "vim", "vue", "python"}, 
+  ensure_installed = {"css", "json", "javascript", "vim", "vue", "python"}, 
 	  -- 启用代码高亮功能
   highlight = {
     enable = true,    
@@ -1684,20 +1770,3 @@ exec "nohlsearch"
 if has_machine_specific_file == 0
 exec "e ~/.config/nvim/_machine_specific.vim"
 endif
-
-" 系统配置
-if filereadable(expand('~/.config/nvim/my/.vimrc.System Configuration'))
-	source ~/.config/nvim/my/.vimrc.System Configuration
-endif
-"
-"
-"自定义插件
-if filereadable(expand('~/.config/nvim/my/.vimrc.custom.plugins'))
-	source ~/.config/nvim/my/.vimrc.custom.plugins
-endif
-
-"自定义配置
-if filereadable(expand('~/.config/nvim/my/.vimrc.custom.config'))
-    source ~/.config/nvim/my/.vimrc.custom.config
-endif
-
