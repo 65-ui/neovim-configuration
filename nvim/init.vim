@@ -91,8 +91,8 @@ set notimeout       " 默认超时1000
 set viewoptions=cursor,folds,slash,unix
 
 
-set wrap           " 启用自动折行 这些字符是“^I!@*-+_;:,./?”
-"set nowrap           " 取消自动折行
+" set wrap           " 启用自动折行 这些字符是“^I!@*-+_;:,./?”
+set nowrap           " 取消自动折行
 "set linebreak        " 自定义折行 set breakat-=_ set showbreak=->
 "set nolinebreak      " 取消自定义折行
 set tw=0            "当输入超过78个字符并按下空格键时会自动换行.将textwidth设成0关闭该功能
@@ -479,7 +479,7 @@ endfunc
 " ===
 
 call plug#begin('$HOME/.config/nvim/plugged')
-
+" 模糊查找器
 " Plug 'LoricAndre/fzterm.nvim'
 
 " Testing my own plugin
@@ -490,12 +490,16 @@ Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'nvim-treesitter/playground'
 
 " Pretty Dress   (美化)
-Plug 'theniceboy/nvim-deus'
+" Plug 'theniceboy/nvim-deus'
 "Plug 'arzg/vim-colors-xcode'
+Plug 'navarasu/onedark.nvim'
+" Plug 'shaunsingh/solarized.nvim'
+" Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 
 " Status line  (状态行)
 Plug 'theniceboy/eleline.vim'
-"Plug 'ojroques/vim-scrollstatus'
+" Plug 'ojroques/vim-scrollstatus'
+" Plug 'feline-nvim/feline.nvim'
 
 " General Highlighter   (自定义颜色)
 Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
@@ -600,7 +604,7 @@ Plug 'dkarter/bullets.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'mg979/vim-visual-multi'
 " Plug 'tomtom/tcomment_vim' " in <space>cn to comment a line
-Plug 'theniceboy/antovim' " gs to switch
+" Plug 'theniceboy/antovim' " gs to switch
 Plug 'tpope/vim-surround' " type yskw' to wrap the word with '' or type cs'` to change 'word' to `word`
 Plug 'gcmt/wildfire.vim' " in Visual mode, type k' to select all text in '', or type k) k] k} kp
 Plug 'junegunn/vim-after-object' " da= to delete what's after =
@@ -617,7 +621,7 @@ Plug 'AndrewRadev/splitjoin.vim'
 Plug 'theniceboy/pair-maker.vim'
 Plug 'theniceboy/vim-move'
 " Plug 'jeffkreeftmeijer/vim-numbertoggle'
-Plug 'Yggdroot/indentLine'
+" Plug 'Yggdroot/indentLine'
 
 " For general writing(写作)
 "Plug 'junegunn/goyo.vim'
@@ -644,9 +648,10 @@ Plug 'itchyny/calendar.vim'
 
 " Other visual enhancement (其他视觉增强)
 Plug 'luochen1990/rainbow'
-Plug 'mg979/vim-xtabline'
-Plug 'ryanoasis/vim-devicons'
+" Plug 'mg979/vim-xtabline'
+" Plug 'ryanoasis/vim-devicons'
 Plug 'wincent/terminus'
+Plug 'kyazdani42/nvim-web-devicons'
 
 " Other useful utilities  (其他有用的实用程序)
 "Plug 'lambdalisue/suda.vim' " do stuff like :sudowrite
@@ -660,10 +665,29 @@ Plug 'wincent/terminus'
 " Plug 'roxma/nvim-yarp'
 
 Plug 'mhinz/vim-startify'
-
+" Plug 'goolord/alpha-nvim'
 " 自动保存
-Plug 'Pocco81/AutoSave.nvim'
+" Plug 'Pocco81/AutoSave.nvim'
 Plug 'numToStr/Comment.nvim'
+" Plug 'yamatsum/nvim-nonicons'
+" Plug 'nvim-lualine/lualine.nvim'
+
+
+Plug 'nvim-lua/plenary.nvim'
+Plug 'folke/todo-comments.nvim'
+" Plug 'https://github.com/onsails/lspkind.nvim'
+Plug 'folke/twilight.nvim'
+Plug 'ray-x/lsp_signature.nvim'
+Plug 'lukas-reineke/indent-blankline.nvim'
+Plug ' JoosepAlviste/nvim-ts-context-commentstring' 
+Plug 'rafamadriz/friendly-snippets'
+Plug 'akinsho/bufferline.nvim',
+
+Plug 'hrsh7th/nvim-cmp'
+" Plug 'hrsh7th/cmp-vsnip'
+Plug 'onsails/lspkind-nvim'
+Plug 'glepnir/lspsaga.nvim', { 'branch': 'main'  }
+
 
 
 call plug#end()
@@ -671,32 +695,369 @@ set re=0
 
 " experimental
 set lazyredraw
+
+
+" ===
+" === New Section
+" ===
+lua << EOF
+local saga = require 'lspsaga'
+saga.init_lsp_saga {
+	-- 提示边框样式：round、single、double
+	border_style = "single",
+	error_sign = " ",
+	warn_sign = " ",
+	hint_sign = " ",
+	infor_sign = " ",
+	diagnostic_header_icon = " ",
+	-- 正在写入的行提示
+	code_action_icon = " ",
+	code_action_prompt = {
+		-- 显示写入行提示
+		-- 如果为 true ，则写代码时会在左侧行号栏中显示你所定义的图标
+		enable = false,
+		sign = true,
+		sign_priority = 40,
+		virtual_text = true
+		},
+}
+EOF
+
+" ===
+" === New Section
+" ===
+
+" lua << EOF
+" " require'alpha'.setup(require'alpha.themes.dashboard'.config)
+
+
+
 "set regexpengine=1
+" ===
+" === 'JoosepAlviste/nvim-ts-context-commentstring'
+" ===
+set termguicolors
+lua << EOF
+require("bufferline").setup{
+options = {
+	buffer_close_icon = '',
+	modified_icon = '',
+	close_icon = '',
+	left_trunc_marker = '',
+	right_trunc_marker = '',
+	max_name_length = 14,
+	max_prefix_length = 13,
+	tab_size = 20,
+	diagnostics = false,
+	offsets = { { filetype = 'NvimTree', text = '', padding = 1  }  },
+	show_buffer_icons = true,
+	show_buffer_close_icons = true,
+	show_close_icon = true,
+	show_tab_indicators = true,
+	persist_buffer_sort = true,
+	separator_style = 'thin',
+	enforce_regular_tabs = true,
+	always_show_bufferline = true,
+			}
+}
+EOF
+" ===
+" === indent-blankline.nvim
+" ===
+" HACK: 空白缩进
+lua << EOF
+vim.opt.list = true
+-- vim.opt.listchars:append("space:⋅")
+-- vim.opt.listchars:append("eol:↴")
+require("indent_blankline").setup {
+	space_char_blankline = " ",
+	show_current_context = true,
+	show_current_context_start = true,
+	}
+EOF
+
+
+
+
+" ===
+" === New Section
+" ===
+lua << EOF
+require("lsp_signature").setup(
+{
+	bind = true,
+	doc_lines = 10,
+	floating_window = true,
+	floating_window_above_cur_line = true,
+	floating_window_off_x = 1,
+	floating_window_off_y = 1,
+	fix_pos = true,
+	hint_enable = true,
+	hint_prefix = ' ',
+	hint_scheme = 'String',
+	hi_parameter = 'Search',
+	max_height = 12,
+	max_width = 40,
+	handler_opts = {
+		border = 'single',
+		},
+	always_trigger = false,
+	check_completion_visible = true,
+	extra_trigger_chars = {"(", ","},
+	zindex = 200,
+	padding = '',
+	transparency = nil,
+	shadow_blend = 36, 
+	shadow_guibg = '#FFC300',
+	toggle_key = nil ,
+}
+)
+EOF
+
+" ===
+" === nvim-web-devicons
+" ===
+"  HACK: 图标设置
+lua << EOF
+require'nvim-web-devicons'.setup {}
+require("nvim-web-devicons").set_default_icon('', '#6d8086')
+require("nvim-web-devicons").set_icon {
+	zsh = {
+		icon = "",
+		color = "#428850",
+		cterm_color = "65",
+		name = "Zsh"
+		},
+	c = {
+		icon = '',
+		name = 'c',
+		},
+	css = {
+		icon = '',
+		color = '#264de4',
+		name = 'css',
+		},
+	deb = {
+		icon = '',
+		name = 'deb',
+		},
+	Dockerfile = {
+		icon = '',
+		name = 'Dockerfile',
+		},
+	html = {
+		icon = '',
+		color= "#e44d27",
+		name = 'html',
+		},
+	jpeg = {
+		icon = '',
+		name = 'jpeg',
+		},
+	jpg = {
+		icon = '',
+		name = 'jpg',
+		},
+	js = {
+		icon = '',
+		color = '#f7ce01',
+		name = 'js',
+		},
+	kt = {
+		icon = '󱈙',
+		name = 'kt',
+		},
+	less = {
+		icon="",
+		name="less"
+		},
+	lock = {
+		icon = '',
+		name = 'lock',
+		},
+	lua = {
+		icon = '',
+		color = '#0fbfcf',
+		name = 'lua',
+		},
+	md = {
+		icon = "",
+		color = '#359ee6',
+		name = "markdown"
+		},
+	mp3 = {
+		icon = '',
+		name = 'mp3',
+		},
+	mp4 = {
+		icon = '',
+		name = 'mp4',
+		},
+	out = {
+		icon = '',
+		name = 'out',
+		},
+	png = {
+		icon = '',
+		name = 'png',
+		},
+	py = {
+		icon = '',
+		color = '#ffe365',
+		name = 'py',
+		},
+	['robots.txt'] = {
+		icon = 'ﮧ',
+		name = 'robots',
+		},
+	toml = {
+		icon = '',
+		name = 'toml',
+		},
+	ts = {
+		icon = 'ﯤ',
+		color = '#f7ce01',
+		name = 'ts',
+		},
+	ttf = {
+		icon = '',
+		name = 'TrueTypeFont',
+		},
+	rb = {
+		icon = '',
+		name = 'rb',
+		},
+	rpm = {
+		icon = '',
+		name = 'rpm',
+		},
+	vue = {
+		icon = '﵂',
+		name = 'vue',
+		},
+	vim = {
+		icon = '',
+		color = '#43f602',
+		name='vim',
+		},
+	woff = {
+		icon = '',
+		name = 'WebOpenFontFormat',
+		},
+	woff2 = {
+		icon = '',
+		name = 'WebOpenFontFormat2',
+		},
+	xz = {
+		icon = '',
+		name = 'xz',
+		},
+	zip = {
+		icon = '',
+		name = 'zip',
+		},
+}
+EOF
+
+" ===
+" === New Section
+" ===
+" NOTE: Twilight: 切换暮光 TwilightEnable: 启用暮光 TwilightDisable: 禁用暮光
+lua << EOF
+require("twilight").setup {}
+EOF
+
+" ===
+" === hexokinase
+" ===
+" NOTE: ['virtual']，['sign_column'],['foreground'],['foregroundfull'],['background'],['backgroundfull']
+let g:Hexokinase_highlighters = ['virtual']
+
+
+" ===
+" === TODO
+" ===
+lua << EOF
+require("todo-comments").setup {
+	signs = true, -- show icons in the signs column
+	sign_priority = 8, -- sign priority
+	-- keywords recognized as todo comments
+	keywords = {
+		FIX = {
+			icon = " ", -- icon used for the sign, and in search results
+			color = "error", -- can be a hex color, or a named color (see below)
+			alt = { "FIXME", "BUG", "FIXIT", "ISSUE" }, -- a set of other keywords that all map to this FIX keywords
+			-- signs = false, -- configure signs for some keywords individually
+			},
+		TODO = { icon = " ", color = "info" },
+		HACK = { icon = " ", color = "warning" },
+		WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
+		PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+		NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
+		},
+	merge_keywords = true, -- when true, custom keywords will be merged with the defaults
+	-- highlighting of the line containing the todo comment
+	-- * before: highlights before the keyword (typically comment characters)
+	-- * keyword: highlights of the keyword
+	-- * after: highlights after the keyword (todo text)
+	highlight = {
+		before = "", -- "fg" or "bg" or empty
+		keyword = "wide", -- "fg", "bg", "wide" or empty. (wide is the same as bg, but will also highlight surrounding characters)
+		after = "fg", -- "fg" or "bg" or empty
+		pattern = [[.*<(KEYWORDS)\s*:]], -- pattern or table of patterns, used for highlightng (vim regex)
+		comments_only = true, -- uses treesitter to match keywords in comments only
+		max_line_len = 400, -- ignore lines longer than this
+		exclude = {}, -- list of file types to exclude highlighting
+		},
+	colors = {
+		error = { "DiagnosticError", "ErrorMsg", "#DC2626" },
+		warning = { "DiagnosticWarning", "WarningMsg", "#FFC300" },   
+		info = { "DiagnosticInfo", "#2563EB" },
+		hint = { "DiagnosticHint", "#10B981" },
+		default = { "Identifier", "#7C3AED" },
+		},
+	search = {
+		command = "rg",
+		args = {
+			"--color=never",
+			"--no-heading",
+			"--with-filename",
+			"--line-number",
+			"--column",
+			},
+		-- regex that will be used to match keywords.
+		-- don't replace the (KEYWORDS) placeholder
+		pattern = [[\b(KEYWORDS):]], -- ripgrep regex
+		-- pattern = [[\b(KEYWORDS)\b]], -- match without the extra colon. You'll likely get false positives
+		},
+	}
+EOF
+
 
 " ===
 " === 自动保存
 " ===
-lua << EOF
-local autosave = require("autosave")
-
-autosave.setup(
-    {
-        enabled = true,
-        execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
-        events = {"InsertLeave", "TextChanged"},
-        conditions = {
-            exists = true,
-            filename_is_not = {},
-            filetype_is_not = {},
-            modifiable = true
-        },
-        write_all_buffers = true,
-        on_off_commands = false,
-        clean_command_line_interval = 0,
-        debounce_delay = 135
-    }
-)
-EOF
+" lua << EOF
+" local autosave = require("autosave")
+"
+" autosave.setup(
+"     {
+"         enabled = true,
+"         execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
+"         events = {"InsertLeave", "TextChanged"},
+"         conditions = {
+"             exists = true,
+"             filename_is_not = {},
+"             filetype_is_not = {},
+"             modifiable = true
+"         },
+"         write_all_buffers = true,
+"         on_off_commands = false,
+"         clean_command_line_interval = 0,
+"         debounce_delay = 3000
+"     }
+" )
+" EOF
 
 " ===
 " === 注释插件
@@ -704,50 +1065,50 @@ EOF
 lua << EOF
 require('Comment').setup(
 {
-        toggler = {
-            -- 切换行注释
-            line = "gcc",
-            --- 切换块注释
-            block = "gCC"
-        },
-        opleader = {
-            -- 可视模式下的行注释
-            line = "gc",
-            -- 可视模式下的块注释
-            block = "gC"
-        },
-        extra = {
-            -- 在当前行上方新增行注释
-            above = "gcO",
-            -- 在当前行下方新增行注释
-            below = "gco",
-            -- 在当前行行尾新增行注释
-            eol = "gcA"
-        },
-        -- 根据当前光标所在上下文判断不同类别的注释
-        -- 由 nvim-ts-context-commentstring  提供
-        pre_hook = function(ctx)
-            -- Only calculate commentstring for tsx filetypes
-            if vim.bo.filetype == "typescriptreact" then
-                local U = require("Comment.utils")
-                -- Detemine whether to use linewise or blockwise commentstring
-                local type = ctx.ctype == U.ctype.line and "__default" or "__multiline"
-                -- Determine the location where to calculate commentstring from
-                local location = nil
-                if ctx.ctype == U.ctype.block then
-                    location = comment_string.utils.get_cursor_location()
-                elseif ctx.cmotion == U.cmotion.v or ctx.cmotion == U.cmotion.V then
-                    location = comment_string.utils.get_visual_start_location()
-                end
-                return comment_string.calculate_commentstring(
-                    {
-                        key = type,
-                        location = location
-                    }
-                )
-            end
-        end
-    }
+	toggler = {
+		-- 切换行注释
+		line = "gcc",
+		-- 切换块注释
+		block = "gCC"
+		},
+	opleader = {
+		-- 可视模式下的行注释
+		line = "gc",
+		-- 可视模式下的块注释
+		block = "gC"
+		},
+	extra = {
+		-- 在当前行上方新增行注释
+		above = "gcO",
+		-- 在当前行下方新增行注释
+		below = "gco",
+		-- 在当前行行尾新增行注释
+		eol = "gcA"
+		},
+	-- 根据当前光标所在上下文判断不同类别的注释
+	-- 由 nvim-ts-context-commentstring  提供
+	pre_hook = function(ctx)
+	-- Only calculate commentstring for tsx filetypes
+	if vim.bo.filetype == "typescriptreact" then
+		local U = require("Comment.utils")
+		-- Detemine whether to use linewise or blockwise commentstring
+		local type = ctx.ctype == U.ctype.line and "__default" or "__multiline"
+		-- Determine the location where to calculate commentstring from
+		local location = nil
+		if ctx.ctype == U.ctype.block then
+			location = comment_string.utils.get_cursor_location()
+		elseif ctx.cmotion == U.cmotion.v or ctx.cmotion == U.cmotion.V then
+			location = comment_string.utils.get_visual_start_location()
+			end
+			return comment_string.calculate_commentstring(
+			{
+					key = type,
+					location = location
+			}
+			)
+			end
+			end
+}
 )
 EOF
 
@@ -763,9 +1124,11 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 "let g:oceanic_next_terminal_italic = 1
 "let g:one_allow_italics = 1
 
+
+colorscheme onedark
 "color dracula
 "color one
-color deus
+" color deus
 "color gruvbox
 "let ayucolor="light"
 "color ayu
@@ -780,6 +1143,107 @@ hi NonText ctermfg=gray guifg=grey10
 "hi Normal ctermfg=252 ctermbg=none
 
 " ===================== Start of Plugin Settings =====================
+
+
+" ===
+" === onedark
+" ===
+" let g:onedark_config = {
+" 	    \ 'style': 'darker',
+" 	    \}
+" colorscheme onedark
+"
+
+" ===
+" === secold
+" ===
+" let g:solarized_italic_comments = v:true
+" let g:solarized_italic_keywords = v:true
+" let g:solarized_italic_functions = v:true
+" let g:solarized_italic_variables = v:false
+" let g:solarized_contrast = v:true
+" let g:solarized_borders = v:false
+" let g:solarized_disable_background = v:false
+" colorscheme solarized
+
+
+
+" ===
+" === Plug 'catppuccin/nvim', {'as': 'catppuccin'}
+" ===
+
+" lua << EOF
+" local catppuccin = require("catppuccin")
+" catppuccin.setup(
+" {
+"    transparent_background = false,
+"    term_colors = false,
+"    styles = {
+" 	  comments = "NONE",
+" 	  functions = "NONE",
+" 	  keywords = "NONE",
+" 	  strings = "NONE",
+" 	  variables = "NONE",
+"    },
+"   integrations = {
+" 	  treesitter = true,
+" 	    native_lsp = {
+" 		    enabled = true,
+" 		    virtual_text = {
+" 			    errors = "italic",
+" 			    hints = "italic",
+" 			    warnings = "italic",
+" 			    information = "italic",
+" 		},
+" --		underlines = {
+" --	    errors = "underlinefalse		hints = "underline",
+" --      warnings = "underline",
+" --			information = "underline",
+" --	    },
+" 	  },
+" 	  lsp_trouble = false,
+" 	  cmp = true,
+" 	  lsp_saga = false,
+" 	  gitgutter = false,
+" 	  gitsigns = true,
+" 	  telescope = true,
+" 	  nvimtree = {
+" 		   enabled = true,
+" 		   show_root = false,
+" 		   transparent_panel = false,
+" 	   },
+" 	  neotree = {
+" 		  enabled = false,
+" 		  show_root = false,
+" 		  transparent_panel = false,
+" 	   },
+" 	  which_key = false,
+" 	     indent_blankline = {
+" 		   enabled = true,
+" 		   colored_indent_levels = false,
+" 	   },
+" 	  dashboard = true,
+" 	  neogit = false,
+" 	  vim_sneak = false,
+" 	  fern = false,
+" 	  barbar = false,
+" 	  bufferline = true,
+" 	  markdown = true,
+" 	  lightspeed = false,
+" 	  ts_rainbow = false,
+" 	  hop = false,
+" 	  notify = true,
+" 	  telekasten = true,
+" 	  symbols_outline = true,
+"   }
+" }
+" )
+"
+" EOF
+" colorscheme catppuccin
+"
+
+
 
 " ===
 " === eleline.vim
@@ -820,6 +1284,7 @@ let g:coc_global_extensions = [
 	\ 'coc-gitignore',
 	\ 'coc-html',
 	\ 'coc-htmlhint',
+  \ 'coc-html-css-support',
 	\ 'coc-highlight',
 	\ 'coc-emmet',
 	\ 'coc-import-cost',
@@ -833,7 +1298,9 @@ let g:coc_global_extensions = [
 	\ 'coc-translator',
 	\ 'coc-tsserver',
 	\ 'coc-vetur',
-	\ 'coc-vimlsp']
+	\ 'coc-sumneko-lua',
+	\ 'coc-vimlsp',
+	\]
 
 set updatetime=100
 "tab补全
@@ -1318,6 +1785,7 @@ autocmd VimEnter * call after_object#enable('=', ':', '-', '#', ' ')
 let g:rainbow_active = 1
 
 
+
 " ===
 " === xtabline
 " ===
@@ -1506,14 +1974,22 @@ let g:agit_no_default_mappings = 1
 " ===
 " === nvim-treesitter
 " ===
-lua <<EOF
+lua << EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = {"dart", "java"},     -- one of "all", "language", or a list of languages
-  highlight = {
-    enable = true,    
-    disable = { "c", "rust" },  -- list of language that will be disabled
-  },
-}
+	-- :TSInstallInfo 命令查看支持的语言
+	ensure_installed = {"html","css", "json", "javascript", "vim", "vue", "python","lua"}, 
+	-- 启用代码高亮功能
+	highlight = {
+		enable = true,    
+		additional_vim_regex_highlighting = false
+		},
+	indent = {
+		enable = true
+		},
+	context_commentstring = {
+		enable = true
+		}
+	}
 EOF
 
 
@@ -1562,20 +2038,3 @@ exec "nohlsearch"
 if has_machine_specific_file == 0
 exec "e ~/.config/nvim/_machine_specific.vim"
 endif
-
-" 系统配置
-if filereadable(expand('~/.config/nvim/my/.vimrc.System Configuration'))
-	source ~/.config/nvim/my/.vimrc.System Configuration
-endif
-"
-"
-"自定义插件
-if filereadable(expand('~/.config/nvim/my/.vimrc.custom.plugins'))
-	source ~/.config/nvim/my/.vimrc.custom.plugins
-endif
-
-"自定义配置
-if filereadable(expand('~/.config/nvim/my/.vimrc.custom.config'))
-    source ~/.config/nvim/my/.vimrc.custom.config
-endif
-
