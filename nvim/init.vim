@@ -376,9 +376,9 @@ noremap tmi :+tabmove<CR>
 " === Markdown Settings
 " ===
 " Snippets
-source $XDG_CONFIG_HOME/nvim/md-snippets.vim
+" source $XDG_CONFIG_HOME/nvim/md-snippets.vim
 " auto spell
-autocmd BufRead,BufNewFile *.md setlocal spell
+" autocmd BufRead,BufNewFile *.md setlocal spell
 
 
 " ===
@@ -1572,9 +1572,8 @@ let g:far#mapping = {
 " === Bullets.vim
 " ===
 " let g:bullets_set_mappings = 0
+" markdown text
 let g:bullets_enabled_file_types = [
-			\ 'markdown',
-			\ 'text',
 			\ 'gitcommit',
 			\ 'scratch'
 			\]
