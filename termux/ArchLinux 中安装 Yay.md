@@ -1,14 +1,11 @@
-6 月 17, 2022
-vhh
-
 <!-- TOC GitLab -->
 
 + [YAY](#yay)
-	* [第 1 步：在 ArchLinux 上安装 base-devel 包](#第-1-步在-archlinux-上安装-base-devel-包)
-	* [第 2 步：安装 Git](#第-2-步安装-git)
-	* [第 3 步：克隆 Yay 存储库](#第-3-步克隆-yay-存储库)
-	* [第 4 步：安装 Yay AUR 助手](#第-4-步安装-yay-aur-助手)
-	* [第 5 步：使用 Yay 安装和管理软件包](#第-5-步使用-yay-安装和管理软件包)
+  * [第 1 步：在 ArchLinux 上安装 base-devel 包](#第-1-步在-archlinux-上安装-base-devel-包)
+  * [第 2 步：安装 Git](#第-2-步安装-git)
+  * [第 3 步：克隆 Yay 存储库](#第-3-步克隆-yay-存储库)
+  * [第 4 步：安装 Yay AUR 助手](#第-4-步安装-yay-aur-助手)
+  * [第 5 步：使用 Yay 安装和管理软件包](#第-5-步使用-yay-安装和管理软件包)
 
 <!-- /TOC -->
 
