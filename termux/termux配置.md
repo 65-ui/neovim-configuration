@@ -1313,17 +1313,25 @@ systemctl restart sshd.service
 
 ## 生成 key
 
+1. Git 是分布式的代码管理工具，远程的代码管理是基于 SSH 的，所以要使用远程的 Git 则需要 SSH 的配置。下面的步骤将完成 生成 SSH 密钥 并 添加公共密钥到 GitHub 上的帐户
+2. 先设置 GitHub 的 user name 和 email
+
+```shell
+git config --global user.name "Git账号"
+git config --global user.email "Git邮箱"
+```
+
 ```shell
 ssh-keygen -t rsa -b 4096 -C "872115355@qq.com"
 ```
 
-检查 `ssh` `github`匹配是否成功
+3. 检查 `ssh` `github`匹配是否成功
 
 ```shell
 ssh -T git@github.com
 ```
 
-该过程中会提示输入密码,直接回车略过即可忽略密码添加认证
+4. 该过程中会提示输入密码,直接回车略过即可忽略密码添加认证
 
 # archlinux 安装 neovim 并增加 python3 支持
 
