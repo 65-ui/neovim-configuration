@@ -107,7 +107,7 @@ git checkout master
 git merge "分支"
 ```
 
-6. 删除分支
+6. 删除分支(本地分支)
 
 ```git
 git branch -d "分支名称"
@@ -122,4 +122,40 @@ git merge reg
 # 打开冲突手动解决冲突
 git add .
 git commit -m ""
+```
+
+8. 将本地推送到远程仓库
+
+```git
+# 第一次推送
+git push -u 远程仓库的别名 本地分支名称:远程分支名称
+git push -u origin login
+```
+
+9. 查看远程分支所以列表
+
+```git
+git remote show 远程仓库名字
+```
+
+10. 下载远程分支(跟踪分支)
+
+```git
+git checkout 远程分支名称
+# 分支重命名
+git checkout -b 本地分支名称 远程仓库名字/远程分支名称
+git checkout -b payment origin/pay
+```
+
+11. 拉取远程分支最新代码
+
+```git
+git pull
+```
+
+12. 删除远程仓库(远程仓库分支)
+
+```git
+git push 远程仓库名字 -- delete 远程分支名称
+git push origin -- delete reg
 ```
