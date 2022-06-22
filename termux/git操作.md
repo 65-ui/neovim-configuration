@@ -111,6 +111,8 @@ git merge "分支"
 
 ```git
 git branch -d "分支名称"
+# D 强制删除分支
+git branch -D "分支名称"
 ```
 
 7. 冲突合并
