@@ -270,7 +270,53 @@ call plug#begin('$HOME/.config/nvim/plugged')
 " Github Copilot
 " Plug 'github/copilot.vim'
 
-" Treesitter
+Plug 'williamboman/nvim-lsp-installer'
+Plug 'neovim/nvim-lspconfig'
+Plug 'onsails/lspkind.nvim'
+
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-calc'
+" For vsnip users.
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
+
+" For luasnip users.
+Plug 'L3MON4D3/LuaSnip'
+Plug 'saadparwaiz1/cmp_luasnip'
+
+" For ultisnips users.
+" Plug 'SirVer/ultisnips'
+" Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+
+" For snippy users.
+" Plug 'dcampos/nvim-snippy'
+" Plug 'dcampos/cmp-snippy'
+
+Plug 'ray-x/lsp_signature.nvim'
+Plug 'SmiteshP/nvim-gps'
+Plug 'windwp/nvim-autopairs'
+
+
+Plug 'folke/trouble.nvim'
+Plug 'j-hui/fidget.nvim'
+Plug 'glepnir/lspsaga.nvim', { 'branch': 'main' }
+Plug 'kosayoda/nvim-lightbulb'
+Plug 'antoinemadec/FixCursorHold.nvim'
+Plug 'rcarriga/nvim-notify'
+
+
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'nvim-telescope/telescope-project.nvim'
+Plug 'jvgrootveld/telescope-zoxide'
+
+Plug 'kyazdani42/nvim-tree.lua'
+"Treesitter
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'nvim-treesitter/playground'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -278,10 +324,16 @@ Plug 'p00f/nvim-ts-rainbow'
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 Plug 'mfussenegger/nvim-ts-hint-textobject'
 Plug 'windwp/nvim-ts-autotag'
-Plug 'andymass/vim-matchup'
+" Plug 'andymass/vim-matchup'
 " Plug 'norcalli/nvim-colorizer.lua'
-Plug 'Chiel92/vim-autoformat'
+"
+" Plug 'Chiel92/vim-autoformat'
+" Plug 'mhartington/formatter.nvim'
+" Plug 'jose-elias-alvarez/null-ls.nvim'
 
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install --frozen-lockfile --production',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
 " Pretty Dress
 "Plug 'theniceboy/nvim-deus'
 "Plug 'arzg/vim-colors-xcode'
@@ -294,89 +346,93 @@ Plug 'sainnhe/sonokai'
 Plug 'christianchiarulli/nvcode-color-schemes.vim'
 Plug 'tanvirtin/monokai.nvim'
 " Status line
-Plug 'theniceboy/eleline.vim', { 'branch': 'no-scrollbar' }
+" Plug 'theniceboy/eleline.vim', { 'branch': 'no-scrollbar' }
+" Plug 'hoob3rt/lualine.nvim'
+" Plug 'feline-nvim/feline.nvim'
+" Plug 'https://github.com/windwp/windline.nvim'
+Plug 'nvim-lualine/lualine.nvim'
 
 " General Highlighter
-Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
-Plug 'RRethy/vim-illuminate'
-
+" Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
+" Plug 'RRethy/vim-illuminate'
+"
 " File navigation
-Plug 'ibhagwan/fzf-lua'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'kevinhwang91/rnvimr'
-Plug 'airblade/vim-rooter'
+" Plug 'ibhagwan/fzf-lua'
+" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Plug 'junegunn/fzf.vim'
+" Plug 'kevinhwang91/rnvimr'
+" Plug 'airblade/vim-rooter'
 " Plug 'pechorin/any-jump.vim'
 
 " Debugger
 " Plug 'puremourning/vimspector', {'do': './install_gadget.py --enable-c --enable-python --enable-go'}
 
 " Auto Complete
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'neoclide/coc.nvim', {'branch': 'release', 'tag': 'v0.0.79'}
-Plug 'wellle/tmux-complete.vim'
+" Plug 'wellle/tmux-complete.vim'
 
 " Snippets
 " Plug 'SirVer/ultisnips'
-Plug 'theniceboy/vim-snippets'
+" Plug 'theniceboy/vim-snippets'
 
 " Undo Tree
-Plug 'mbbill/undotree'
+" Plug 'mbbill/undotree'
 
 " Git
-Plug 'theniceboy/vim-gitignore', { 'for': ['gitignore', 'vim-plug'] }
-Plug 'theniceboy/fzf-gitignore', { 'do': ':UpdateRemotePlugins' }
+" Plug 'theniceboy/vim-gitignore', { 'for': ['gitignore', 'vim-plug'] }
+" Plug 'theniceboy/fzf-gitignore', { 'do': ':UpdateRemotePlugins' }
 "Plug 'mhinz/vim-signify'
-Plug 'airblade/vim-gitgutter'
-Plug 'cohama/agit.vim'
-Plug 'kdheepak/lazygit.nvim'
-
+" Plug 'airblade/vim-gitgutter'
+" Plug 'cohama/agit.vim'
+" Plug 'kdheepak/lazygit.nvim'
+"
 " Tex
 " Plug 'lervag/vimtex'
 
 
 " HTML, CSS, JavaScript, Typescript, PHP, JSON, etc.
-Plug 'elzr/vim-json'
-Plug 'neoclide/jsonc.vim'
-Plug 'othree/html5.vim'
-Plug 'alvan/vim-closetag'
+" Plug 'elzr/vim-json'
+" Plug 'neoclide/jsonc.vim'
+" Plug 'othree/html5.vim'
+" Plug 'alvan/vim-closetag'
 " Plug 'hail2u/vim-css3-syntax' " , { 'for': ['vim-plug', 'php', 'html', 'javascript', 'css', 'less'] }
 " Plug 'spf13/PIV', { 'for' :['php', 'vim-plug'] }
 " Plug 'pangloss/vim-javascript', { 'for': ['vim-plug', 'php', 'html', 'javascript', 'css', 'less'] }
-Plug 'yuezk/vim-js', { 'for': ['vim-plug', 'php', 'html', 'javascript', 'css', 'less'] }
+" Plug 'yuezk/vim-js', { 'for': ['vim-plug', 'php', 'html', 'javascript', 'css', 'less'] }
 " Plug 'MaxMEllon/vim-jsx-pretty', { 'for': ['vim-plug', 'php', 'html', 'javascript', 'css', 'less'] }
 " Plug 'jelera/vim-javascript-syntax', { 'for': ['vim-plug', 'php', 'html', 'javascript', 'css', 'less'] }
 "Plug 'jaxbot/browserlink.vim'
-Plug 'HerringtonDarkholme/yats.vim'
+" Plug 'HerringtonDarkholme/yats.vim'
 " Plug 'posva/vim-vue'
 " Plug 'evanleck/vim-svelte', {'branch': 'main'}
 " Plug 'leafOfTree/vim-svelte-plugin'
 " Plug 'leafgarland/typescript-vim'
-Plug 'MaxMEllon/vim-jsx-pretty'
-Plug 'pangloss/vim-javascript'
-Plug 'leafgarland/typescript-vim'
-Plug 'peitalin/vim-jsx-typescript'
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-Plug 'pantharshit00/vim-prisma'
-
+" Plug 'MaxMEllon/vim-jsx-pretty'
+" Plug 'pangloss/vim-javascript'
+" Plug 'leafgarland/typescript-vim'
+" Plug 'peitalin/vim-jsx-typescript'
+" Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+" Plug 'pantharshit00/vim-prisma'
+"
 
 " Python
-Plug 'Vimjas/vim-python-pep8-indent', { 'for' :['python', 'vim-plug'] }
-Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins', 'for' :['python', 'vim-plug'] }
-Plug 'tweekmonster/braceless.vim', { 'for' :['python', 'vim-plug'] }
-"Plug 'vim-scripts/indentpython.vim', { 'for' :['python', 'vim-plug'] }
+" Plug 'Vimjas/vim-python-pep8-indent', { 'for' :['python', 'vim-plug'] }
+" Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins', 'for' :['python', 'vim-plug'] }
+" Plug 'tweekmonster/braceless.vim', { 'for' :['python', 'vim-plug'] }
+" "Plug 'vim-scripts/indentpython.vim', { 'for' :['python', 'vim-plug'] }
 "Plug 'plytophogy/vim-virtualenv', { 'for' :['python', 'vim-plug'] }
 "Plug 'tmhedberg/SimpylFold', { 'for' :['python', 'vim-plug'] }
 
 
 " Markdown
-Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
-Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle', 'for': ['text', 'markdown', 'vim-plug'] }
-Plug 'mzlogin/vim-markdown-toc', { 'for': ['gitignore', 'markdown', 'vim-plug'] }
-Plug 'dkarter/bullets.vim'
-
+" Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
+" Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle', 'for': ['text', 'markdown', 'vim-plug'] }
+" Plug 'mzlogin/vim-markdown-toc', { 'for': ['gitignore', 'markdown', 'vim-plug'] }
+" Plug 'dkarter/bullets.vim'
+"
 " Other filetypes
-Plug 'wlangstroth/vim-racket'
+" Plug 'wlangstroth/vim-racket'
 " Plug 'jceb/vim-orgmode', {'for': ['vim-plug', 'org']}
 
 " Editor Enhancement
@@ -384,7 +440,6 @@ Plug 'petertriho/nvim-scrollbar'
 Plug 'kevinhwang91/nvim-hlslens'
 Plug 'ggandor/lightspeed.nvim'
 "Plug 'Raimondi/delimitMate'
-Plug 'jiangmiao/auto-pairs'
 Plug 'mg979/vim-visual-multi'
 Plug 'theniceboy/antovim' " gs to switch
 Plug 'tpope/vim-surround' " type yskw' to wrap the word with '' or type cs'` to change 'word' to `word`
@@ -404,16 +459,16 @@ Plug 'theniceboy/vim-move'
 " Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
 " For general writing
-Plug 'junegunn/goyo.vim'
-Plug 'reedes/vim-wordy'
+" Plug 'junegunn/goyo.vim'
+" Plug 'reedes/vim-wordy'
 "Plug 'ron89/thesaurus_query.vim'
 
 " Bookmarks
 " Plug 'MattesGroeger/vim-bookmarks'
 
 " Find & Replace
-Plug 'nvim-lua/plenary.nvim' " nvim-spectre dep
-Plug 'nvim-pack/nvim-spectre'
+" Plug 'nvim-lua/plenary.nvim' " nvim-spectre dep
+" Plug 'nvim-pack/nvim-spectre'
 
 " Documentation
 " Plug 'KabbAmine/zeavim.vim' " <LEADER>z to find doc
@@ -423,7 +478,7 @@ Plug 'nvim-pack/nvim-spectre'
 Plug 'mhinz/vim-startify'
 
 " Vim Applications
-Plug 'itchyny/calendar.vim'
+" Plug 'itchyny/calendar.vim'
 
 "其他视觉增强
 " Plug 'ryanoasis/vim-devicons'
@@ -444,8 +499,7 @@ Plug 'rafamadriz/friendly-snippets'
 call plug#end()
 
 set re=0
-
-
+source $HOME/.config/nvim/telescope.vim
 " ==================== Dress up my vim ====================
 set termguicolors " enable true colors support
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
@@ -721,96 +775,6 @@ nnoremap <LEADER>g= :GitGutterNextHunk<CR>
 
 
 " ==================== coc.nvim ====================
-let g:coc_global_extensions = [
-	\ 'coc-css',
-	\ 'coc-eslint',
-	\ 'coc-explorer',
-	\ 'coc-gitignore',
-	\ 'coc-html',
-	\ 'coc-import-cost',
-	\ 'coc-json',
-	\ 'coc-lists',
-	\ 'coc-prettier',
-	\ 'coc-pyright',
-	\ 'coc-snippets',
-	\ 'coc-stylelint',
-	\ 'coc-syntax',
-	\ 'coc-sumneko-lua',
-	\ 'coc-translator',
-	\ 'coc-tsserver',
-	\ 'coc-vetur',
-	\ 'coc-vimlsp',
-	\ 'coc-yank']
-inoremap <silent><expr> <TAB>
-	\ pumvisible() ? "\<C-n>" :
-	\ <SID>check_back_space() ? "\<TAB>" :
-	\ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-function! s:check_back_space() abort
-	let col = col('.') - 1
-	return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-inoremap <silent><expr> <c-space> coc#refresh()
-inoremap <silent><expr> <c-o> coc#refresh()
-function! Show_documentation()
-	call CocActionAsync('highlight')
-	if (index(['vim','help'], &filetype) >= 0)
-		execute 'h '.expand('<cword>')
-	else
-		call CocAction('doHover')
-	endif
-endfunction
-nnoremap <LEADER>h :call Show_documentation()<CR>
-" set runtimepath^=~/.config/nvim/coc-extensions/coc-flutter-tools/
-" let g:coc_node_args = ['--nolazy', '--inspect-brk=6045']
-" let $NVIM_COC_LOG_LEVEL = 'debug'
-" let $NVIM_COC_LOG_FILE = '/Users/david/Desktop/log.txt'
-
-nnoremap <silent><nowait> <LEADER>d :CocList diagnostics<cr>
-nmap <silent> <LEADER>- <Plug>(coc-diagnostic-prev)
-nmap <silent> <LEADER>= <Plug>(coc-diagnostic-next)
-nnoremap <c-c> :CocCommand<CR>
-" Text Objects
-xmap kf <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap kf <Plug>(coc-funcobj-i)
-omap af <Plug>(coc-funcobj-a)
-xmap kc <Plug>(coc-classobj-i)
-omap kc <Plug>(coc-classobj-i)
-xmap ac <Plug>(coc-classobj-a)
-omap ac <Plug>(coc-classobj-a)
-" Useful commands
-nnoremap <silent> <space>y :<C-u>CocList -A --normal yank<cr>
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gD :tab sp<CR><Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nmap <leader>rn <Plug>(coc-rename)
-nmap ee :CocCommand explorer<CR>
-" coc-translator
-nmap ts <Plug>(coc-translator-p)
-" Remap for do codeAction of selected region
-function! s:cocActionsOpenFromSelected(type) abort
-  execute 'CocCommand actions.open ' . a:type
-endfunction
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>aw  <Plug>(coc-codeaction-selected)w
-" coctodolist
-" nnoremap <leader>tn :CocCommand todolist.create<CR>
-" nnoremap <leader>tl :CocList todolist<CR>
-" nnoremap <leader>tu :CocCommand todolist.download<CR>:CocCommand todolist.upload<CR>
-" coc-tasks
-noremap <silent> <leader>ts :CocList tasks<CR>
-" coc-snippets
-imap <C-l> <Plug>(coc-snippets-expand)
-vmap <C-e> <Plug>(coc-snippets-select)
-let g:coc_snippet_next = '<c-e>'
-let g:coc_snippet_prev = '<c-n>'
-imap <C-e> <Plug>(coc-snippets-expand-jump)
-autocmd BufRead,BufNewFile tsconfig.json set filetype=jsonc
-
 
 " ==================== vim-instant-markdown ====================
 let g:instant_markdown_slow = 0
@@ -1080,8 +1044,10 @@ require'nvim-treesitter.configs'.setup {
 		"json",
 		"python",
 		"vue",
+		"markdown",
 	},
   highlight = { enable = true, disable = { "vim" } },
+	indent={enable=true},
 	textobjects = {
 			select = {
 				enable = true,
@@ -1132,9 +1098,6 @@ require("nvim-ts-autotag").setup({
 		},
 	})
 EOF
-au BufWrite *.html :Autoformat
-au BufWrite *.css :Autoformat
-au BufWrite *.js :Autoformat
 endif
 
 
@@ -1175,124 +1138,123 @@ noremap g# g#<Cmd>lua require('hlslens').start()<CR>
 
 
 " ==================== fzf-lua ====================
-noremap <silent> <C-p> :FzfLua files<CR>
-noremap <silent> <C-f> :Rg<CR>
-noremap <silent> <C-h> :FzfLua oldfiles cwd=~<CR>
-noremap <silent> <C-q> :FzfLua builtin<CR>
-noremap <silent> <C-t> :FzfLua lines<CR>
-" noremap <silent> <C-x> :FzfLua resume<CR>
-noremap <silent> z= :FzfLua spell_suggest<CR>
-noremap <silent> <C-w> :FzfLua buffers<CR>
-noremap <leader>; :History:<CR>
-augroup fzf_commands
-  autocmd!
-  autocmd FileType fzf tnoremap <silent> <buffer> <c-j> <down>
-  autocmd FileType fzf tnoremap <silent> <buffer> <c-k> <up>
-augroup end
-if g:nvim_plugins_installation_completed == 1
-lua <<EOF
-require'fzf-lua'.setup {
-	global_resume = true,
-	global_resume_query = true,
-	winopts = {
-		height = 0.95,
-		width = 0.95,
-		preview = {
-			scrollbar = 'float',
-		},
-		fullscreen = false,
-		vertical       = 'down:45%',      -- up|down:size
-		horizontal     = 'right:60%',     -- right|left:size
-		hidden         = 'nohidden',
-		title = true,
-	},
-	keymap = {
-		-- These override the default tables completely
-		-- no need to set to `false` to disable a bind
-		-- delete or modify is sufficient
-		builtin = {
-			["<c-f>"]      = "toggle-fullscreen",
-			["<c-r>"]      = "toggle-preview-wrap",
-			["<c-p>"]      = "toggle-preview",
-			["<c-y>"]      = "preview-page-down",
-			["<c-l>"]      = "preview-page-up",
-			["<S-left>"]   = "preview-page-reset",
-		},
-		fzf = {
-			["esc"]        = "abort",
-			["ctrl-h"]     = "unix-line-discard",
-			["ctrl-k"]     = "half-page-down",
-			["ctrl-b"]     = "half-page-up",
-			["ctrl-n"]     = "beginning-of-line",
-			["ctrl-a"]     = "end-of-line",
-			["alt-a"]      = "toggle-all",
-			["f3"]         = "toggle-preview-wrap",
-			["f4"]         = "toggle-preview",
-			["shift-down"] = "preview-page-down",
-			["shift-up"]   = "preview-page-up",
-			["ctrl-e"]     = "down",
-			["ctrl-u"]     = "up",
-		},
-	},
-  previewers = {
-    cat = {
-      cmd             = "cat",
-      args            = "--number",
-    },
-    bat = {
-      cmd             = "bat",
-      args            = "--style=numbers,changes --color always",
-      theme           = 'Coldark-Dark', -- bat preview theme (bat --list-themes)
-      config          = nil,            -- nil uses $BAT_CONFIG_PATH
-    },
-    head = {
-      cmd             = "head",
-      args            = nil,
-    },
-    git_diff = {
-      cmd_deleted     = "git diff --color HEAD --",
-      cmd_modified    = "git diff --color HEAD",
-      cmd_untracked   = "git diff --color --no-index /dev/null",
-      -- pager        = "delta",      -- if you have `delta` installed
-    },
-    man = {
-      cmd             = "man -c %s | col -bx",
-    },
-    builtin = {
-      syntax          = true,         -- preview syntax highlight?
-      syntax_limit_l  = 0,            -- syntax limit (lines), 0=nolimit
-      syntax_limit_b  = 1024*1024,    -- syntax limit (bytes), 0=nolimit
-    },
-  },
-  files = {
-    -- previewer      = "bat",          -- uncomment to override previewer
-                                        -- (name from 'previewers' table)
-                                        -- set to 'false' to disable
-    prompt            = 'Files❯ ',
-    multiprocess      = true,           -- run command in a separate process
-    git_icons         = true,           -- show git icons?
-    file_icons        = true,           -- show file icons?
-    color_icons       = true,           -- colorize file|git icons
-    -- executed command priority is 'cmd' (if exists)
-    -- otherwise auto-detect prioritizes `fd`:`rg`:`find`
-    -- default options are controlled by 'fd|rg|find|_opts'
-    -- NOTE: 'find -printf' requires GNU find
-    -- cmd            = "find . -type f -printf '%P\n'",
-    find_opts         = [[-type f -not -path '*/\.git/*' -printf '%P\n']],
-    rg_opts           = "--color=never --files --hidden --follow -g '!.git'",
-    fd_opts           = "--color=never --type f --hidden --follow --exclude .git",
-  },
-  buffers = {
-    prompt            = 'Buffers❯ ',
-    file_icons        = true,         -- show file icons?
-    color_icons       = true,         -- colorize file|git icons
-    sort_lastused     = true,         -- sort buffers() by last used
-  },
-}
-EOF
-endif
-
-
+" noremap <silent> <C-p> :FzfLua files<CR>
+" noremap <silent> <C-f> :Rg<CR>
+" noremap <silent> <C-h> :FzfLua oldfiles cwd=~<CR>
+" noremap <silent> <C-q> :FzfLua builtin<CR>
+" noremap <silent> <C-t> :FzfLua lines<CR>
+" " noremap <silent> <C-x> :FzfLua resume<CR>
+" noremap <silent> z= :FzfLua spell_suggest<CR>
+" noremap <silent> <C-w> :FzfLua buffers<CR>
+" noremap <leader>; :History:<CR>
+" augroup fzf_commands
+"   autocmd!
+"   autocmd FileType fzf tnoremap <silent> <buffer> <c-j> <down>
+"   autocmd FileType fzf tnoremap <silent> <buffer> <c-k> <up>
+" augroup end
+" if g:nvim_plugins_installation_completed == 1
+" lua <<EOF
+" require'fzf-lua'.setup {
+" 	global_resume = true,
+" 	global_resume_query = true,
+" 	winopts = {
+" 		height = 0.95,
+" 		width = 0.95,
+" 		preview = {
+" 			scrollbar = 'float',
+" 		},
+" 		fullscreen = false,
+" 		vertical       = 'down:45%',      -- up|down:size
+" 		horizontal     = 'right:60%',     -- right|left:size
+" 		hidden         = 'nohidden',
+" 		title = true,
+" 	},
+" 	keymap = {
+" 		-- These override the default tables completely
+" 		-- no need to set to `false` to disable a bind
+" 		-- delete or modify is sufficient
+" 		builtin = {
+" 			["<c-f>"]      = "toggle-fullscreen",
+" 			["<c-r>"]      = "toggle-preview-wrap",
+" 			["<c-p>"]      = "toggle-preview",
+" 			["<c-y>"]      = "preview-page-down",
+" 			["<c-l>"]      = "preview-page-up",
+" 			["<S-left>"]   = "preview-page-reset",
+" 		},
+" 		fzf = {
+" 			["esc"]        = "abort",
+" 			["ctrl-h"]     = "unix-line-discard",
+" 			["ctrl-k"]     = "half-page-down",
+" 			["ctrl-b"]     = "half-page-up",
+" 			["ctrl-n"]     = "beginning-of-line",
+" 			["ctrl-a"]     = "end-of-line",
+" 			["alt-a"]      = "toggle-all",
+" 			["f3"]         = "toggle-preview-wrap",
+" 			["f4"]         = "toggle-preview",
+" 			["shift-down"] = "preview-page-down",
+" 			["shift-up"]   = "preview-page-up",
+" 			["ctrl-e"]     = "down",
+" 			["ctrl-u"]     = "up",
+" 		},
+" 	},
+"   previewers = {
+"     cat = {
+"       cmd             = "cat",
+"       args            = "--number",
+"     },
+"     bat = {
+"       cmd             = "bat",
+"       args            = "--style=numbers,changes --color always",
+"       theme           = 'Coldark-Dark', -- bat preview theme (bat --list-themes)
+"       config          = nil,            -- nil uses $BAT_CONFIG_PATH
+"     },
+"     head = {
+"       cmd             = "head",
+"       args            = nil,
+"     },
+"     git_diff = {
+"       cmd_deleted     = "git diff --color HEAD --",
+"       cmd_modified    = "git diff --color HEAD",
+"       cmd_untracked   = "git diff --color --no-index /dev/null",
+"       -- pager        = "delta",      -- if you have `delta` installed
+"     },
+"     man = {
+"       cmd             = "man -c %s | col -bx",
+"     },
+"     builtin = {
+"       syntax          = true,         -- preview syntax highlight?
+"       syntax_limit_l  = 0,            -- syntax limit (lines), 0=nolimit
+"       syntax_limit_b  = 1024*1024,    -- syntax limit (bytes), 0=nolimit
+"     },
+"   },
+"   files = {
+"     -- previewer      = "bat",          -- uncomment to override previewer
+"                                         -- (name from 'previewers' table)
+"                                         -- set to 'false' to disable
+"     prompt            = 'Files❯ ',
+"     multiprocess      = true,           -- run command in a separate process
+"     git_icons         = true,           -- show git icons?
+"     file_icons        = true,           -- show file icons?
+"     color_icons       = true,           -- colorize file|git icons
+"     -- executed command priority is 'cmd' (if exists)
+"     -- otherwise auto-detect prioritizes `fd`:`rg`:`find`
+"     -- default options are controlled by 'fd|rg|find|_opts'
+"     -- NOTE: 'find -printf' requires GNU find
+"     -- cmd            = "find . -type f -printf '%P\n'",
+"     find_opts         = [[-type f -not -path '*/\.git/*' -printf '%P\n']],
+"     rg_opts           = "--color=never --files --hidden --follow -g '!.git'",
+"     fd_opts           = "--color=never --type f --hidden --follow --exclude .git",
+"   },
+"   buffers = {
+"     prompt            = 'Buffers❯ ',
+"     file_icons        = true,         -- show file icons?
+"     color_icons       = true,         -- colorize file|git icons
+"     sort_lastused     = true,         -- sort buffers() by last used
+"   },
+" }
+" EOF
+" endif
+"
 " ==================== lazygit.nvim ====================
 noremap <c-g> :LazyGit<CR>
 let g:lazygit_floating_window_winblend = 0 " transparency of floating window
@@ -1561,9 +1523,697 @@ EOF
 
 " ==================== blankline.nvim ====================
 lua << EOF
-require('bufferline').setup {}
+require("bufferline").setup({
+		options = {
+			number = "none",
+			modified_icon = "●",
+			buffer_close_icon = "",
+			left_trunc_marker = "",
+			right_trunc_marker = "",
+			max_name_length = 14,
+			max_prefix_length = 13,
+			tab_size = 20,
+			show_buffer_close_icons = true,
+			show_buffer_icons = true,
+			show_tab_indicators = true,
+			diagnostics = "nvim_lsp",
+			always_show_bufferline = true,
+			separator_style = "thin",
+			offsets = {
+				{
+					filetype = "NvimTree",
+					text = "File Explorer",
+					text_align = "center",
+					padding = 1,
+				},
+			},
+		},
+	})
 EOF
 
+" --------------lsp installer-----------
+lua << EOF
+require("nvim-lsp-installer").setup({
+    ensure_installed = {"cssls","html","emmet_ls","jsonls","tsserver","sumneko_lua","pyright"},
+    automatic_installation = false,
+		ui = {
+        icons = {
+            server_installed = "",
+            server_pending = "",
+            server_uninstalled = "ﮊ"
+        },
+			  keymaps={
+            toggle_server_expand = "<CR>",
+						install_server = "i",
+						update_server = "u",
+						check_server_version = "c",
+						update_all_servers = "U",
+						check_outdated_servers = "C",
+						uninstall_server = "X",
+			  },
+    }
+})
+EOF
+
+lua << EOF
+require("nvim-autopairs").setup {}
+EOF
+
+" ------------lspconfig----------
+"
+lua << EOF
+vim.cmd [[autocmd! ColorScheme * highlight NormalFloat guibg=#1f2335]]
+vim.cmd [[autocmd! ColorScheme * highlight FloatBorder guifg=white guibg=#1f2335]]
+
+local border = {
+      {"┌", "FloatBorder"},
+      {"─", "FloatBorder"},
+      {"┐", "FloatBorder"},
+      {"│", "FloatBorder"},
+      {"┘", "FloatBorder"},
+      {"─", "FloatBorder"},
+      {"└", "FloatBorder"},
+      {"│", "FloatBorder"},
+}
+
+-- LSP settings (for overriding per client)
+local handlers =  {
+  ["textDocument/hover"] =  vim.lsp.with(vim.lsp.handlers.hover, {border = border}),
+  ["textDocument/signatureHelp"] =  vim.lsp.with(vim.lsp.handlers.signature_help, {border = border }),
+}
+
+-- Do not forget to use the on_attach function
+-- require 'lspconfig'.myserver.setup { handlers=handlers }
+
+-- To instead override globally
+local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+  opts = opts or {}
+  opts.border = opts.border or border
+  return orig_util_open_floating_preview(contents, syntax, opts, ...)
+end
+
+-- require 'lspconfig'.myservertwo.setup {}
+EOF
+lua << EOF
+
+vim.diagnostic.config({
+  virtual_text = true,
+  signs = true,
+  underline = true,
+  update_in_insert = false,
+  severity_sort = false,
+})
+
+
+local signs = { Error = "", Warn = "", Hint = " ", Info = " " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+
+
+
+vim.diagnostic.config({
+  virtual_text = {
+    prefix = '●', -- Could be '●', '▎', 'x'
+  }
+})
+
+
+
+
+-- Mappings.
+-- See `:help vim.diagnostic.*` for documentation on any of the below functions
+local opts = { noremap=true, silent=true }
+vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
+
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+  -- Enable completion triggered by <c-x><c-o>
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+  vim.keymap.set('n', '<space>wl', function()
+    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  end, bufopts)
+  vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+  vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
+end
+
+local lsp_flags = {
+  -- This is the default in Nvim 0.7+
+  debounce_text_changes = 150,
+}
+require('lspconfig')['pyright'].setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+}
+require('lspconfig')['tsserver'].setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+}
+require('lspconfig')['cssls'].setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+}
+
+require'lspconfig'.sumneko_lua.setup {
+	cmd = { "lua-language-server", "--locale=zh-cn" },
+  settings = {
+    Lua = {
+      runtime = {
+        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+        version = 'LuaJIT',
+      },
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = {'vim'},
+      },
+      workspace = {
+        -- Make the server aware of Neovim runtime files
+        library = vim.api.nvim_get_runtime_file("$HOME/.local/share/nvim/lsp_servers/sumneko_lua", true),
+      },
+      -- Do not send telemetry data containing a randomized but unique identifier
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
+}
+require'lspconfig'.pyright.setup{}
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+require'lspconfig'.cssls.setup {
+	  capabilities = capabilities,
+}
+require'lspconfig'.tsserver.setup{
+cmd={ "typescript-language-server", "--stdio" },
+filetypes={ "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
+init_options={hostInfo = "neovim"},
+}
+require'lspconfig'.html.setup{
+cmd={ "vscode-html-language-server", "--stdio" },
+filetypes={"html"},
+}
+require'lspconfig'.vimls.setup{
+cmd={ "vim-language-server", "--stdio" },
+filetypes={ "vim"},
+init_options={
+diagnostic = {
+    enable = true
+  },
+  indexes = {
+    count = 3,
+    gap = 100,
+    projectRootPatterns = { "runtime", "nvim", ".git", "autoload", "plugin" },
+    runtimepath = true
+  },
+  isNeovim = true,
+  iskeyword = "@,48-57,_,192-255,-#",
+  runtimepath = "",
+  suggest = {
+    fromRuntimepath = true,
+    fromVimruntime = true
+  },
+  vimruntime = ""
+}
+}
+
+require'lspconfig'.emmet_ls.setup{
+cmd={ "emmet-ls", "--stdio" },
+filetypes={ "html", "css" },
+}
+require'lspconfig'.jsonls.setup{
+cmd={ "vscode-json-language-server", "--stdio" },
+filetypes={ "json", "jsonc" },
+init_options={
+  provideFormatter = true
+	},
+}
+
+
+
+
+EOF
+
+source $HOME/.config/nvim/feline.vim
+source $HOME/.config/nvim/notify.vim
+source $HOME/.config/nvim/tree.vim
+" -------cmp---
+set completeopt=menu,menuone,noselect
+lua <<EOF
+  -- Setup nvim-cmp.
+  local cmp = require'cmp'
+  local lspkind = require('lspkind')
+  cmp.setup({
+   snippet = {
+      -- REQUIRED - you must specify a snippet engine
+      expand = function(args)
+        --vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+        require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+--        require('snippy').expand_snippet(args.body) -- For `snippy` users.
+--        vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+      end,
+    },
+    window = {
+documentation = {
+			-- border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+			-- border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" },
+			border={"╭", "─", "╮","│", "╯", "─", "╰","│",},
+		},
+		completion = {
+			border={"╭", "─", "╮","│", "╯", "─", "╰","│",},
+			-- border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" },
+			winhighlight = "Normal:CmpPmenu,FloatBorder:CmpPmenuBorder,Search:None",
+		},
+    },
+    mapping = cmp.mapping.preset.insert({
+		["<C-k>"] = cmp.mapping.select_prev_item(),
+		["<C-j>"] = cmp.mapping.select_next_item(),
+      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.abort(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+
+["<Tab>"] = cmp.mapping(function(fallback)
+         if cmp.visible() then
+            cmp.select_next_item()
+         elseif require("luasnip").expand_or_jumpable() then
+            vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true), "")
+         else
+            fallback()
+         end
+      end, {
+         "i",
+         "s",
+      }),
+      ["<S-Tab>"] = cmp.mapping(function(fallback)
+         if cmp.visible() then
+            cmp.select_prev_item()
+         elseif require("luasnip").jumpable(-1) then
+            vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-jump-prev", true, true, true), "")
+         else
+            fallback()
+         end
+      end, {
+         "i",
+         "s",
+      }),
+		}),
+	  
+formatting = {
+  format = lspkind.cmp_format({
+    mode = "symbol_text",
+    menu = ({
+      buffer = "(BUF)",
+      nvim_lsp = "(LSP)",
+      luasnip = "(Snip)",
+      nvim_lua = "(Lua)",
+      latex_symbols = "(Latex)",
+      calc="(Calc)",
+			path = "(Path)",
+    })
+  }),  
+},
+ 
+			sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'vsnip' }, -- For vsnip users.
+      { name = 'luasnip' }, -- For luasnip users.
+--      { name = 'ultisnips' }, -- For ultisnips users.
+--    { name = 'snippy' }, -- For snippy users.
+    }, {
+      { name = 'buffer' },
+			{ name = "path"  },
+			{name = 'calc'},
+    }),
+  })
+
+  -- Set configuration for specific filetype.
+  cmp.setup.filetype('gitcommit', {
+    sources = cmp.config.sources({
+      { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+    }, {
+      { name = 'buffer' },
+    })
+  })
+
+  -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline('/', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = 'buffer' }
+    }
+  })
+
+  -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+  cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = 'path' }
+    }, {
+      { name = 'cmdline' }
+    })
+  })
+
+  -- Setup lspconfig.
+  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+  require('lspconfig')['html'].setup {
+    capabilities = capabilities
+  }
+
+
+EOF
+
+lua << EOF
+require("trouble").setup(
+{
+    position = "bottom", -- position of the list can be: bottom, top, left, right
+    height = 10, -- height of the trouble list when position is top or bottom
+    width = 60, -- width of the list when position is left or right
+    icons = true, -- use devicons for filenames
+    mode = "workspace_diagnostics", -- "workspace_diagnostics", "document_diagnostics", "quickfix", "lsp_references", "loclist"
+    fold_open = "", -- icon used for open folds
+    fold_closed = "", -- icon used for closed folds
+    group = true, -- group results by file
+    padding = true, -- add an extra new line on top of the list
+    action_keys = { -- key mappings for actions in the trouble list
+        -- map to {} to remove a mapping, for example:
+        -- close = {},
+        close = "q", -- close the list
+        cancel = "<esc>", -- cancel the preview and get back to your last window / buffer / cursor
+        refresh = "r", -- manually refresh
+        jump = {"<cr>", "<tab>"}, -- jump to the diagnostic or open / close folds
+        open_split = { "<c-x>" }, -- open buffer in new split
+        open_vsplit = { "<c-v>" }, -- open buffer in new vsplit
+        open_tab = { "<c-t>" }, -- open buffer in new tab
+        jump_close = {"o"}, -- jump to the diagnostic and close the list
+        toggle_mode = "m", -- toggle between "workspace" and "document" diagnostics mode
+        toggle_preview = "P", -- toggle auto_preview
+        hover = "K", -- opens a small popup with the full multiline message
+        preview = "p", -- preview the diagnostic location
+        close_folds = {"zM", "zm"}, -- close all folds
+        open_folds = {"zR", "zr"}, -- open all folds
+        toggle_fold = {"zA", "za"}, -- toggle fold of current file
+        previous = "k", -- preview item
+        next = "j" -- next item
+    },
+    indent_lines = true, -- add an indent guide below the fold icons
+    auto_open = false, -- automatically open the list when you have diagnostics
+    auto_close = false, -- automatically close the list when you have no diagnostics
+    auto_preview = true, -- automatically preview the location of the diagnostic. <esc> to close preview and go back to last window
+    auto_fold = false, -- automatically fold a file trouble list at creation
+    auto_jump = {"lsp_definitions"}, -- for the given modes, automatically jump if there is only a single result
+    signs = {
+        -- icons / text used for a diagnostic
+        error = "",
+        warning = "",
+        hint = "",
+        information = "",
+        other = "﫠"
+    },
+    use_diagnostic_signs = false -- enabling this will use the signs defined in your lsp client
+}
+)
+
+-- Lua
+vim.api.nvim_set_keymap("n", "<leader>xx", "<cmd>Trouble<cr>",
+  {silent = true, noremap = true}
+)
+vim.api.nvim_set_keymap("n", "<leader>xw", "<cmd>Trouble workspace_diagnostics<cr>",
+  {silent = true, noremap = true}
+)
+vim.api.nvim_set_keymap("n", "<leader>xd", "<cmd>Trouble document_diagnostics<cr>",
+  {silent = true, noremap = true}
+)
+vim.api.nvim_set_keymap("n", "<leader>xl", "<cmd>Trouble loclist<cr>",
+  {silent = true, noremap = true}
+)
+vim.api.nvim_set_keymap("n", "<leader>xq", "<cmd>Trouble quickfix<cr>",
+  {silent = true, noremap = true}
+)
+vim.api.nvim_set_keymap("n", "gR", "<cmd>Trouble lsp_references<cr>",
+  {silent = true, noremap = true}
+)
+EOF
+
+
+
+
+lua << EOF
+
+
+ cfg = {
+  debug = false, -- set to true to enable debug logging
+  log_path = vim.fn.stdpath("cache") .. "/lsp_signature.log", -- log dir when debug is on
+  -- default is  ~/.cache/nvim/lsp_signature.log
+  verbose = false, -- show debug line number
+
+  bind = true, -- This is mandatory, otherwise border config won't get registered.
+               -- If you want to hook lspsaga or other signature handler, pls set to false
+  doc_lines = 0, -- will show two lines of comment/doc(if there are more than two lines in doc, will be truncated);
+                 -- set to 0 if you DO NOT want any API comments be shown
+                 -- This setting only take effect in insert mode, it does not affect signature help in normal
+                 -- mode, 10 by default
+
+  floating_window = true, -- show hint in a floating window, set to false for virtual text only mode
+
+  floating_window_above_cur_line = true, -- try to place the floating above the current line when possible Note:
+  -- will set to true when fully tested, set to false will use whichever side has more space
+  -- this setting will be helpful if you do not want the PUM and floating win overlap
+
+  floating_window_off_x = 4, -- adjust float windows x position.
+  floating_window_off_y = 0, -- adjust float windows y position.
+
+
+  fix_pos = true,  -- set to true, the floating window will not auto-close until finish all parameters
+  hint_enable = true, -- virtual hint enable
+  hint_prefix = "",  -- Panda for parameter
+  hint_scheme = "String",
+  hi_parameter = "Search", -- how your parameter will be highlight
+  max_height = 32, -- max height of signature floating_window, if content is more than max_height, you can scroll down
+                   -- to view the hiding contents
+  max_width = 60, -- max_width of signature floating_window, line will be wrapped if exceed max_width
+  handler_opts = {
+    border = "single"   -- double, rounded, single, shadow, none
+  },
+
+  always_trigger = false, -- sometime show signature on new line or in middle of parameter can be confusing, set it to false for #58
+
+  auto_close_after = nil, -- autoclose signature float win after x sec, disabled if nil.
+  extra_trigger_chars = {}, -- Array of extra characters that will trigger signature completion, e.g., {"(", ","}
+  zindex = 200, -- by default it will be on top of all floating windows, set to <= 50 send it to bottom
+
+  padding = '', -- character to pad on left and right of signature can be ' ', or '|'  etc
+
+  transparency = nil, -- disabled by default, allow floating win transparent value 1~100
+  shadow_blend = 36, -- if you using shadow as border use this set the opacity
+  shadow_guibg = 'Black', -- if you using shadow as border use this set the color e.g. 'Green' or '#121315'
+  timer_interval = 100, -- default timer check interval set to lower value if you want to reduce latency
+  toggle_key = nil -- toggle signature on and off in insert mode,  e.g. toggle_key = '<M-x>'
+}
+
+-- recommended:
+require'lsp_signature'.setup(cfg) -- no need to specify bufnr if you don't use toggle_key
+EOF
+lua << EOF
+require"fidget".setup{ 
+text = {
+    spinner = "zip", -- animation shown when tasks are ongoing
+    done = "✔", -- character shown when all tasks are complete
+    commenced = "Started", -- message shown when task starts
+    completed = "Completed", -- message shown when task completes
+  },
+  sources = {
+    ["null-ls"] = {
+      ignore = true,
+    },
+  },
+}
+
+EOF
+" HACK: lspsaga
+lua << EOF
+local saga = require 'lspsaga'
+
+-- change the lsp symbol kind
+-- local kind = require('lspsaga.lspkind')
+-- kind[type_number][2] = icon -- see lua/lspsaga/lspkind.lua
+
+ -- use custom config
+ saga.init_lsp_saga({
+     -- "single" | "double" | "rounded" | "bold" | "plus"
+     border_style = "single",
+     -- when cursor in saga window you config these to move
+     move_in_saga = { prev = '<C-p>',next = '<C-n>'},
+    diagnostic_header = { " ", " ", " ", "ﴞ " },
+    -- show diagnostic source
+    show_diagnostic_source = true,
+    -- add bracket or something with diagnostic source, just have 2 elements
+    diagnostic_source_bracket = {},
+    -- use emoji lightbulb in default
+    code_action_icon = "💡",
+    -- if true can press number to execute the codeaction in codeaction window
+    code_action_num_shortcut = true,
+    -- same as nvim-lightbulb but async
+    code_action_lightbulb = {
+        enable = true,
+        sign = true,
+        sign_priority = 20,
+        virtual_text = true,
+    },
+    -- separator in finder
+    finder_separator = "  ",
+    -- preview lines of lsp_finder and definition preview
+    max_preview_lines = 10,
+    finder_action_keys = {
+        open = "o",
+        vsplit = "s",
+        split = "i",
+        tabe = "t",
+        quit = "q",
+        scroll_down = "<C-f>",
+        scroll_up = "<C-b>", -- quit can be a table
+    },
+    code_action_keys = {
+        quit = "q",
+        exec = "<CR>",
+    },
+    rename_action_quit = "<C-c>",
+    definition_preview_icon = "  ",
+    -- show symbols in winbar must nightly
+--    symbol_in_winbar = true,
+--    winbar_separator = '>',
+--    winbar_show_file = false,
+   -- like server_filetype_map = { metals = { "sbt", "scala" } }
+})
+EOF
+lua <<EOF
+
+-- lsp finder to find the cursor word definition and reference
+vim.keymap.set("n", "gh", require("lspsaga.finder").lsp_finder, { silent = true,noremap = true })
+-- or use command LspSagaFinder
+vim.keymap.set("n", "gh", "<cmd>Lspsaga lsp_finder<CR>", { silent = true,noremap = true})
+--rename
+vim.keymap.set("n", "gr", require("lspsaga.rename").lsp_rename, { silent = true,noremap = true })
+-- or command
+vim.keymap.set("n", "gr", "<cmd>Lspsaga rename<CR>", { silent = true,noremap = true })
+-- close rename win use <C-c> in insert mode or `q` in normal mode or `:q`
+
+
+local action = require("lspsaga.codeaction")
+
+-- code action
+vim.keymap.set("n", "<leader>ca", action.code_action, { silent = true,noremap = true })
+vim.keymap.set("v", "<leader>ca", function()
+    vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<C-U>", true, false, true))
+    action.range_code_action()
+end, { silent = true,noremap =true })
+-- or use command
+vim.keymap.set("n", "<leader>ca", "<cmd>Lspsaga code_action<CR>", { silent = true,noremap = true })
+vim.keymap.set("v", "<leader>ca", "<cmd><C-U>Lspsaga range_code_action<CR>", { silent = true,noremap = true })
+
+
+-- show hover doc
+vim.keymap.set("n", "K", require("lspsaga.hover").render_hover_doc, { silent = true })
+-- or use command
+vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
+
+local action = require("lspsaga.action")
+-- scroll down hover doc or scroll in definition preview
+vim.keymap.set("n", "<C-f>", function()
+    action.smart_scroll_with_saga(1)
+end, { silent = true })
+-- scroll up hover doc
+vim.keymap.set("n", "<C-b>", function()
+    action.smart_scroll_with_saga(-1)
+end, { silent = true })
+
+
+
+-- show signature help
+vim.keymap.set("n", "gs", require("lspsaga.signaturehelp").signature_help, { silent = true,noremap = true})
+-- or command
+vim.keymap.set("n", "gs", "<Cmd>Lspsaga signature_help<CR>", { silent = true,noremap = true })
+
+
+
+-- preview definition
+vim.keymap.set("n", "gd", require("lspsaga.definition").preview_definition, { silent = true,noremap = true })
+-- or use command
+vim.keymap.set("n", "gd", "<cmd>Lspsaga preview_definition<CR>", { silent = true })
+
+
+vim.keymap.set("n", "<leader>cd", require("lspsaga.diagnostic").show_line_diagnostics, { silent = true,noremap = true })
+vim.keymap.set("n", "<leader>cd", "<cmd>Lspsaga show_line_diagnostics<CR>", { silent = true,noremap= true })
+
+-- jump diagnostic
+vim.keymap.set("n", "je", require("lspsaga.diagnostic").goto_prev, { silent = true, noremap =true })
+vim.keymap.set("n", "ke", require("lspsaga.diagnostic").goto_next, { silent = true, noremap =true })
+-- or use command
+vim.keymap.set("n", "je", "<cmd>Lspsaga diagnostic_jump_next<CR>", { silent = true, noremap = true })
+vim.keymap.set("n", "ke", "<cmd>Lspsaga diagnostic_jump_prev<CR>", { silent = true, noremap = true })
+
+
+
+-- float terminal also you can pass the cli command in open_float_terminal function
+local term = require("lspsaga.floaterm")
+
+-- float terminal also you can pass the cli command in open_float_terminal functionvim.keymap.set("n", "<A-d>", term.open_float_terminal, { silent = true,noremap = true })
+vim.keymap.set("t", "<leader>te", function()
+    vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<C-\\><C-n>", true, false, true))
+    term.close_float_terminal()
+end, { silent = true })
+
+-- or use command
+vim.keymap.set("n", "<leader>te", "<cmd>Lspsaga open_floaterm<CR>", { silent = true,noremap = true })
+vim.keymap.set("t", "<leader>te", "<C-\\><C-n><cmd>Lspsaga close_floaterm<CR>", { silent = true,noremap =true })
+EOF
+
+lua << EOF
+vim.cmd [[autocmd CursorHold,CursorHoldI * lua require('nvim-lightbulb').update_lightbulb()]]
+EOF
+
+lua << EOF
+
+-- Lua
+require("nvim-gps").setup({
+		icons = {
+			["class-name"] = " ", -- Classes and class-like objects
+			["function-name"] = " ", -- Functions
+			["method-name"] = " ", -- Methods (functions inside class-like objects)
+		},
+		languages = {
+			-- You can disable any language individually here
+			["javascript"] = true,
+			["json"] = true,
+			["lua"] = true,
+			["python"] = true,
+			["html"] = true,
+		},
+		separator = " > ",
+	})
+EOF
 " ==================== Terminal Colors ====================
 let g:terminal_color_0  = '#000000'
 let g:terminal_color_1  = '#FF5555'
