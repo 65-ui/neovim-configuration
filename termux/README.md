@@ -115,6 +115,17 @@ timeout = 6000
 index-url = https://mirrors.aliyun.com/pypi/simple/
 trusted-host = mirrors.aliyun.com
 ```
+3.下载nrm修改npm源
+
+```shell
+npm i nrm -g
+
+查看所以源镜像
+nrm ls
+
+切换淘宝源
+nrm use taobao
+```
 
 # neovim
 
