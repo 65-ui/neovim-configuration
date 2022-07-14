@@ -19,6 +19,6 @@ server.on("request", (req, res) => {
 		res.end(dataStr);
 	});
 });
-server.listen(80, () => {
+server.listen(8080, () => {
 	console.log("server running http:127.0.0.1:8080");
 });

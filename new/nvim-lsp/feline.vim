@@ -1,6 +1,12 @@
 lua << EOF
 local lualine = require('lualine')
 local navic = require('nvim-navic')
+local function keymap()
+  if vim.opt.iminsert:get() > 0 and vim.b.keymap_name then
+    return '⌨ ' .. vim.b.keymap_name
+  end
+  return ''
+end
 
 
 -- Color table for highlights
@@ -80,7 +86,7 @@ end
 
 ins_left {
   function()
-    return '▊'
+    return '▊ '
   end,
   color = { fg = colors.blue }, -- Sets highlighting of component
   padding = { left = 0, right = 1 }, -- We don't need space before this
@@ -121,75 +127,40 @@ ins_left {
 }
 
 
---ins_left {
---  'filetype', -- option component same as &encoding in viml
---	colored = true,   -- Displays filetype icon in color if set to true
---  icon_only = false, -- Display only an icon for filetype
---  icon = { align = 'left' },
---}
 
 
-
---ins_left {
---  'filename',
---  cond = conditions.buffer_not_empty,
---  color = { fg = colors.magenta, gui = 'none' },
---}
+ins_left {
+  'filename',
+  cond = conditions.buffer_not_empty,
+  file_status = true,
+  path = 3,
+  shorting_target = 30,
+  symbols = {
+	  modified = ' ◒',
+	  readonly = ' ',
+	  unnamed = '[No Name]',
+	  },
+  color = { fg = colors.magenta, gui = 'none' },
+}
 
 -- ins_left { 'location' }
 ins_left {
   'branch',
-  icon = '',
-  color = { fg = '#FFC125', gui = 'bold' },
+  icon = '',
+  color = { fg = '#ffec8b', gui = 'none' },
 }
 
 ins_left {
   'diff',
   -- Is it me or the symbol for modified us really weird
-  symbols = { added = ' ', modified = '柳 ', removed = ' ' },
+  symbols = { added = ' ', modified = ' ', removed = ' ' },
   diff_color = {
     added = { fg = colors.green },
-    modified = { fg = colors.orange },
+    modified = { fg = colors.yellow },
     removed = { fg = colors.red },
   },
-  cond = conditions.hide_in_width,
+  --cond = conditions.hide_in_width,
 }
-
- ins_left {
-	 'buffers',
-      show_filename_only = true,   -- Shows shortened relative path when set to false.
-      hide_filename_extension = false,   -- Hide filename extension when set to true.
-      show_modified_status = true, -- Shows indicator when the buffer is modified.
-
-      mode = 0, -- 0: Shows buffer name
-                -- 1: Shows buffer index
-                -- 2: Shows buffer name + buffer index 
-                -- 3: Shows buffer number
-                -- 4: Shows buffer name + buffer number
-
-      max_length = vim.o.columns * 2 / 3, -- Maximum width of buffers component,
-                                          -- it can also be a function that returns
-                                          -- the value of `max_length` dynamically.
-      filetype_names = {
-        TelescopePrompt = 'Telescope',
-        dashboard = 'Dashboard',
-        packer = 'Packer',
-        fzf = 'FZF',
-        alpha = 'Alpha'
-      }, -- Shows specific buffer name for that filetype ( { `filetype` = `buffer_name`, ... } )
-
-      buffers_color = {
-        -- Same values as the general color option can be used here.
-       -- active = 'lualine_{section}_normal',     -- Color for active buffer.
-       -- inactive = 'lualine_{section}_inactive', -- Color for inactive buffer.
-      },
-
-      symbols = {
-        modified = ' ●',      -- Text to show when the buffer is modified
-        alternate_file = '#', -- Text to show to identify the alternate file
-        directory =  '',     -- Text to show when the buffer is a directory
-      },
-    }
 
 
 
@@ -199,15 +170,15 @@ ins_left {navic.get_location, cond = navic.is_available}
 
 ins_left {
   'diagnostics',
-  sources = { 'nvim_diagnostic' },
-  symbols = { error = ' ', warn = ' ', info = ' ' },
+  sources = { 'nvim_diagnostic','coc' },
+symbols = { error = ' ', warn = '襁 ', info = ' ',hint=' '},
   diagnostics_color = {
     color_error = { fg = colors.red },
     color_warn = { fg = colors.yellow },
     color_info = { fg = colors.cyan },
+    color_hint = { fg = colors.green },
   },
 }
-
 -- Insert mid section. You can make any number of sections in neovim :)
 -- for lualine it's any number greater then 2
 ins_left {
@@ -236,20 +207,30 @@ ins_left {
   icon = ' LSP:',
   color = { fg = '#7FFFD4', gui = 'none' },
 }
-
+ins_right {
+  'filetype', -- option component same as &encoding in viml
+	colored = true,   -- Displays filetype icon in color if set to true
+  icon_only = false, -- Display only an icon for filetype
+  icon = { align = 'left' },
+}
 -- Add components to right sections
---ins_right {
---  'o:encoding', -- option component same as &encoding in viml
---  fmt = string.upper, -- I'm not sure why it's upper case either ;)
---  cond = conditions.hide_in_width,
---  color = { fg = colors.green, gui = 'none' },
---}
+ins_right {
+  'o:encoding', -- option component same as &encoding in viml
+  fmt = string.upper, -- I'm not sure why it's upper case either ;)
+  cond = conditions.hide_in_width,
+  color = { fg = colors.green, gui = 'none' },
+}
 
 ins_right {
   'fileformat',
   fmt = string.upper,
-  icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
-  color = { fg = colors.green, gui = 'bold' },
+  icons_enabled = true, -- I think icons are cool but Eviline doesn't have them. sigh
+  symbols={
+    unix='',
+	dos='',
+	mac='',
+  },
+  color = { fg = colors.green, gui = 'none' },
 }
 
 
@@ -270,3 +251,4 @@ ins_right {
 -- Now don't forget to initialize lualine
 lualine.setup(config)
 EOF
+

@@ -1,4 +1,3 @@
-const console = require("console");
 const fs = require("fs");
 // TODO: 读取文件
 fs.readFile("./text", 'utf8', function(err, dataStr) {

@@ -19,6 +19,4 @@ server.on("request", (req, res) => {
 
 server.listen(8080, () => {
 	console.log("正在运行 http:127.0.0.1:8080");
-	console.log("正在运行 http:127.0.0.1:8080");
-	console.log("正在运行 http:127.0.0.1:8080");
 });

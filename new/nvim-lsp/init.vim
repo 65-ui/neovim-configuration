@@ -48,6 +48,15 @@ set foldenable  "打开折叠
 "expr：用表达式进行折叠
 set foldmethod=indent
 set foldcolumn=1
+set guifont = "monospace:h17",
+set hidden
+set pumheight=10
+set smartcase
+set smartindent
+" set splitbelow
+" set splitright
+set termguicolors
+set title
 let &t_ut=''
 set autochdir
 set exrc
@@ -56,28 +65,28 @@ set number
 set relativenumber
 set cursorline
 set noexpandtab
-set tabstop=4
+set tabstop=3
 set shiftwidth=4
 set softtabstop=4
 set autoindent
 set list
 set listchars=tab:\|\ ,trail:▫
-set scrolloff=4
+set scrolloff=8
+set sidescroll=8
 set ttimeoutlen=0
 set notimeout
 set viewoptions=cursor,folds,slash,unix
 set nowrap
 set tw=0
 set indentexpr=
-" set foldmethod=indent
 " set foldlevel=99
 " set foldenable
 set formatoptions-=tc
 set splitright
 set splitbelow
 set noshowmode
+set showtabline=2
 set ignorecase
-set smartcase
 set shortmess+=c
 set inccommand=split
 set completeopt=longest,noinsert,menuone,noselect,preview
@@ -125,7 +134,7 @@ vnoremap Y "+y
 " Find pair
 noremap ,. %
 " Search
-noremap <LEADER><CR> :nohlsearch<CR>
+noremap <LEADER>se :nohlsearch<CR>
 " Adjacent duplicate words
 noremap <LEADER>dw /\(\<\w\+\>\)\_s*\1
 " Space to Tab
@@ -263,7 +272,8 @@ func! CompileRunGcc()
 	elseif &filetype == 'javascript'
 		set splitbelow
 		:sp
-		:term export DEBUG="INFO,ERROR,WARNING"; node --trace-warnings .
+		":term export DEBUG="INFO,ERROR,WARNING"; node --trace-warnings .
+	   :term node %
 	elseif &filetype == 'racket'
 		set splitbelow
 		:sp
@@ -282,6 +292,7 @@ call plug#begin('$HOME/.config/nvim/plugged')
 
 " Github Copilot
 " Plug 'github/copilot.vim'
+
 
 Plug 'williamboman/nvim-lsp-installer'
 Plug 'neovim/nvim-lspconfig'
@@ -366,7 +377,7 @@ Plug 'tanvirtin/monokai.nvim'
 " Plug 'feline-nvim/feline.nvim'
 " Plug 'https://github.com/windwp/windline.nvim'
 Plug 'nvim-lualine/lualine.nvim'
-
+"
 " General Highlighter
 Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
 " Plug 'RRethy/vim-illuminate'
@@ -401,7 +412,7 @@ Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
 " Plug 'airblade/vim-gitgutter'
 " Plug 'cohama/agit.vim'
 " Plug 'kdheepak/lazygit.nvim'
-"
+Plug 'lewis6991/gitsigns.nvim'
 " Tex
 " Plug 'lervag/vimtex'
 
@@ -494,7 +505,6 @@ Plug 'nvim-lua/plenary.nvim'
 " Mini Vim-APP
 "Plug 'jceb/vim-orgmode'
 Plug 'mhinz/vim-startify'
-
 " Vim Applications
 " Plug 'itchyny/calendar.vim'
 
@@ -520,6 +530,8 @@ set re=0
 source $HOME/.config/nvim/telescope.vim
 source $HOME/.config/nvim/feline.vim
 source $HOME/.config/nvim/notify.vim
+map <silent> <C-t> :NvimTreeOpen<CR>
+map <silent> <C-q> :NvimTreeClose<CR>
 
 " ==================== Dress up my vim ====================
 
@@ -1110,6 +1122,75 @@ nnoremap H :GitGutterPreviewHunk<CR>
 nnoremap <LEADER>g- :GitGutterPrevHunk<CR>
 nnoremap <LEADER>g= :GitGutterNextHunk<CR>
 
+lua << EOF
+require("gitsigns").setup({
+		signs = {
+			add = {
+				hl = "GitSignsAdd",
+				text = "▎",
+				numhl = "GitSignsAddNr",
+				linehl = "GitSignsAddLn",
+			},
+			change = {
+				hl = "GitSignsChange",
+				text = "░",
+				numhl = "GitSignsChangeNr",
+				linehl = "GitSignsChangeLn",
+			},
+			delete = {
+				hl = "GitSignsDelete",
+				text = "▏",
+				numhl = "GitSignsDeleteNr",
+				linehl = "GitSignsDeleteLn",
+			},
+			topdelete = {
+				hl = "GitSignsDelete",
+				text = "▔",
+				numhl = "GitSignsDeleteNr",
+				linehl = "GitSignsDeleteLn",
+			},
+			changedelete = {
+				hl = "GitSignsChange",
+				text = "▒",
+				numhl = "GitSignsChangeNr",
+				linehl = "GitSignsChangeLn",
+			},
+		},
+		keymaps = {
+			-- Default keymap options
+			noremap = true,
+			buffer = true,
+			["n ]g"] = {
+				expr = true,
+				"&diff ? ']g' : '<cmd>lua require\"gitsigns\".next_hunk()<CR>'",
+			},
+			["n [g"] = {
+				expr = true,
+				"&diff ? '[g' : '<cmd>lua require\"gitsigns\".prev_hunk()<CR>'",
+			},
+			["n <leader>hs"] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
+			["v <leader>hs"] = '<cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
+			["n <leader>hu"] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
+			["n <leader>hr"] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
+			["v <leader>hr"] = '<cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
+			["n <leader>hR"] = '<cmd>lua require"gitsigns".reset_buffer()<CR>',
+			["n <leader>hp"] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
+			["n <leader>hb"] = '<cmd>lua require"gitsigns".blame_line(true)<CR>',
+			-- Text objects
+			["o ih"] = ':<C-U>lua require"gitsigns".text_object()<CR>',
+			["x ih"] = ':<C-U>lua require"gitsigns".text_object()<CR>',
+		},
+		watch_gitdir = { interval = 1000, follow_files = true },
+		current_line_blame = true,
+		current_line_blame_opts = { delay = 1000, virtual_text_pos = "eol" },
+		sign_priority = 6,
+		update_debounce = 100,
+		status_formatter = nil, -- Use default
+		word_diff = false,
+		diff_opts = { internal = true },
+	})
+EOF
+
 
 
 " ==================== vim-instant-markdown ====================
@@ -1420,7 +1501,19 @@ require'nvim-treesitter.configs'.setup {
 			extended_mode = true, -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
 			max_file_lines = 1000, -- Do not enable for files with more than 1000 lines, int
 		},
-		context_commentstring = { enable = true, enable_autocmd = false },
+		context_commentstring = { 
+			enable = true, 
+			enable_autocmd = false,
+			config = {
+               typescript = "// %s",
+			   css = "/* %s */",
+			   scss = "/* %s */",
+			   html = "<!-- %s -->",
+			   svelte = "<!-- %s -->",
+			   vue = "<!-- %s -->",
+			   json = "",
+			},
+		},
 		matchup = { enable = true },
 }
 require("nvim-ts-autotag").setup({
@@ -1751,6 +1844,7 @@ require("nvim-lsp-installer").setup({
     ensure_installed = {"cssls","html","emmet_ls","jsonls","tsserver","sumneko_lua","pyright"},
     automatic_installation = false,
 		ui = {
+		border='single',
         icons = {
             server_installed = "",
             server_pending = "",
@@ -1775,6 +1869,7 @@ EOF
 
 " ------------lspconfig----------
 "
+let g:vsnip_snippet_dir="$HOME/.config/nvim/snippet"
 lua << EOF
 vim.cmd [[autocmd! ColorScheme * highlight NormalFloat guibg=#1f2335]]
 vim.cmd [[autocmd! ColorScheme * highlight FloatBorder guifg=white guibg=#1f2335]]
@@ -2511,7 +2606,6 @@ EOF
 "     }
 " })
 " EOF
-"
 " ==================== Terminal Colors ====================
 let g:terminal_color_0  = '#000000'
 let g:terminal_color_1  = '#FF5555'
