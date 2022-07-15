@@ -149,7 +149,6 @@ noremap <silent> <LEADER>o za
 inoremap <C-a> <ESC>A
 
 
-
 " ==================== Window management ====================
 " Use <space> + new arrow keys for moving the cursor around windows
 noremap <LEADER>w <C-w>w
@@ -205,13 +204,12 @@ noremap tmi :+tabmove<CR>
 nnoremap \t :tabe<CR>:-tabmove<CR>:term sh -c 'st'<CR><C-\><C-N>:q<CR>
 " Opening a terminal window
 noremap <LEADER>/ :set splitbelow<CR>:split<CR>:res +10<CR>:term<CR>
-" Press space twice to jump to the next '<++>' and edit it
+" Press space twice to jump to the next '           ' and edit it
 noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
 " Spelling Check with <space>sc
 noremap <LEADER>sc :set spell!<CR>
 " Press ` to change case (instead of ~)
 noremap ` ~
-noremap <C-c> zz
 " Auto change directory to current dir
 autocmd BufEnter * silent! lcd %:p:h
 " Call figlet
@@ -229,6 +227,7 @@ map <F10> :call SynGroup()<CR>
 
 " Compile function
 noremap r :call CompileRunGcc()<CR>
+noremap <C-c> zz
 func! CompileRunGcc()
 	exec "w"
 	if &filetype == 'c'
@@ -275,6 +274,7 @@ func! CompileRunGcc()
 		":term export DEBUG="INFO,ERROR,WARNING"; node --trace-warnings .
 	   :term node %
 	elseif &filetype == 'racket'
+
 		set splitbelow
 		:sp
 		:res -5
@@ -292,7 +292,12 @@ call plug#begin('$HOME/.config/nvim/plugged')
 
 " Github Copilot
 " Plug 'github/copilot.vim'
-
+Plug 'dstein64/vim-startuptime'
+" TODO: 调试适配器协议
+Plug 'goolord/alpha-nvim'
+" Plug 'akinsho/toggleterm.nvim', {'tag' : 'v2.*'}
+Plug 'b0o/schemastore.nvim'
+"
 
 Plug 'williamboman/nvim-lsp-installer'
 Plug 'neovim/nvim-lspconfig'
@@ -403,7 +408,7 @@ Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
 " Plug 'theniceboy/vim-snippets'
 
 " Undo Tree
-" Plug 'mbbill/undotree'
+Plug 'mbbill/undotree'
 
 " Git
 " Plug 'theniceboy/vim-gitignore', { 'for': ['gitignore', 'vim-plug'] }
@@ -504,7 +509,7 @@ Plug 'nvim-lua/plenary.nvim'
 
 " Mini Vim-APP
 "Plug 'jceb/vim-orgmode'
-Plug 'mhinz/vim-startify'
+" Plug 'mhinz/vim-startify'
 " Vim Applications
 " Plug 'itchyny/calendar.vim'
 
@@ -551,7 +556,7 @@ require("nvim-web-devicons").set_icon {
 		},
 	css = {
 		icon = '',
-		color = '#264de4',
+		color = '#61afef',
 		name = 'css',
 		},
 	deb = {
@@ -564,7 +569,6 @@ require("nvim-web-devicons").set_icon {
 		},
 	html = {
 		icon = '',
-		color= "#e44d27",
 		name = 'html',
 		},
 	jpeg = {
@@ -577,7 +581,6 @@ require("nvim-web-devicons").set_icon {
 		},
 	js = {
 		icon = '',
-		color = '#f7ce01',
 		name = 'js',
 		},
 	kt = {
@@ -594,12 +597,10 @@ require("nvim-web-devicons").set_icon {
 		},
 	lua = {
 		icon = '',
-		color = '#0fbfcf',
 		name = 'lua',
 		},
 	md = {
 		icon = "",
-		color = '#359ee6',
 		name = "markdown"
 		},
 	mp3 = {
@@ -620,7 +621,6 @@ require("nvim-web-devicons").set_icon {
 		},
 	py = {
 		icon = '',
-		color = '#ffe365',
 		name = 'py',
 		},
 	['robots.txt'] = {
@@ -633,7 +633,6 @@ require("nvim-web-devicons").set_icon {
 		},
 	ts = {
 		icon = 'ﯤ',
-		color = '#f7ce01',
 		name = 'ts',
 		},
 	ttf = {
@@ -653,8 +652,7 @@ require("nvim-web-devicons").set_icon {
 		name = 'vue',
 		},
 	vim = {
-		icon = '',
-		color = '#43f602',
+		icon = '',
 		name='vim',
 		},
 	woff = {
@@ -1279,8 +1277,8 @@ let g:VM_maps["Redo"]               = '<C-r>'
 
 
 " ==================== nvim-spectre ====================
-nnoremap <LEADER>f <cmd>lua require('spectre').open()<CR>
-vnoremap <LEADER>f <cmd>lua require('spectre').open_visual()<CR>
+" nnoremap <LEADER>f <cmd>lua require('spectre').open()<CR>
+" vnoremap <LEADER>f <cmd>lua require('spectre').open_visual()<CR>
 
 
 " ==================== Bullets.vim ====================
@@ -1914,18 +1912,16 @@ vim.diagnostic.config({
   severity_sort = false,
 })
 
-
-local signs = { Error = "", Warn = "", Hint = " ", Info = " " }
+-- BUG: Question = "",
+local signs = { Error = "", Warn = "", Hint = " ", Info = " ", }
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
-
-
 vim.diagnostic.config({
   virtual_text = {
-    prefix = '●', -- Could be '●', '▎', 'x'
+    prefix = '●', -- Could be '●', '▎', 'x'
   }
 })
 
@@ -1963,9 +1959,9 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-  vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
-end
+  vim.keymap.set('n', '<leader>f', vim.lsp.buf.formatting, bufopts)
 
+  end
 local lsp_flags = {
   -- This is the default in Nvim 0.7+
   debounce_text_changes = 150,
@@ -2021,6 +2017,14 @@ init_options={hostInfo = "neovim"},
 require'lspconfig'.html.setup{
 cmd={ "vscode-html-language-server", "--stdio" },
 filetypes={"html"},
+init_options = {
+    configurationSection = { "html", "css", "javascript" },
+	 embeddedLanguages = { css = true, javascript = true },
+    },
+single_file_support = true,
+flags = { debounce_text_changes = 500 },
+capabilities = capabilities,
+on_attach = custom_attach,
 }
 require'lspconfig'.vimls.setup{
 cmd={ "vim-language-server", "--stdio" },
@@ -2048,11 +2052,82 @@ diagnostic = {
 
 require'lspconfig'.emmet_ls.setup{
 cmd={ "emmet-ls", "--stdio" },
-filetypes={ "html", "css" },
+filetypes={
+    "html",
+    "css",
+    "scss",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "haml",
+    "xml",
+    "xsl",
+    "pug",
+    "slim",
+    "sass",
+    "stylus",
+    "less",
+    "sss",
+    "hbs",
+    "handlebars",
+},
 }
 require'lspconfig'.jsonls.setup{
 cmd={ "vscode-json-language-server", "--stdio" },
 filetypes={ "json", "jsonc" },
+settings = {
+	json = {
+	    schemas = require('schemastore').json.schemas(),
+       schemas = {
+						{
+							fileMatch = { "package.json" },
+							url = "https://json.schemastore.org/package.json",
+						},
+						{
+							fileMatch = { "tsconfig*.json" },
+							url = "https://json.schemastore.org/tsconfig.json",
+						},
+						{
+							fileMatch = {
+								".prettierrc",
+								".prettierrc.json",
+								"prettier.config.json",
+							},
+							url = "https://json.schemastore.org/prettierrc.json",
+						},
+						{
+							fileMatch = { ".eslintrc", ".eslintrc.json" },
+							url = "https://json.schemastore.org/eslintrc.json",
+						},
+						{
+							fileMatch = {
+								".babelrc",
+								".babelrc.json",
+								"babel.config.json",
+							},
+							url = "https://json.schemastore.org/babelrc.json",
+						},
+						{
+							fileMatch = { "lerna.json" },
+							url = "https://json.schemastore.org/lerna.json",
+						},
+						{
+							fileMatch = {
+								".stylelintrc",
+								".stylelintrc.json",
+								"stylelint.config.json",
+							},
+							url = "http://json.schemastore.org/stylelintrc.json",
+						},
+						{
+							fileMatch = { "/.github/workflows/*" },
+							url = "https://json.schemastore.org/github-workflow.json",
+						},
+					},
+	    validate = { enable = true },
+	},
+},
 init_options={
   provideFormatter = true
 	},
@@ -2060,9 +2135,80 @@ init_options={
 
 require 'lspconfig'.eslint.setup{}
 require'lspconfig'.vuels.setup{}
+EOF
+" TODO: 格式化
+lua << EOF
+EOF
 
 
+" TODO: lspkind
+lua << EOF
+require('lspkind').init({
+    -- DEPRECATED (use mode instead): enables text annotations
+    --
+    -- default: true
+    -- with_text = true,
 
+    -- defines how annotations are shown
+    -- default: symbol
+    -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
+    mode = 'symbol_text',
+
+    -- default symbol map
+    -- can be either 'default' (requires nerd-fonts font) or
+    -- 'codicons' for codicon preset (requires vscode-codicons font)
+    --
+    -- default: 'default'
+    preset = 'codicons',
+
+    -- override preset symbols
+    --
+    -- default: {}
+    symbol_map = {
+      Text = "",
+		-- Method = "m",
+		-- Function = "",
+		-- Constructor = "",
+      Method = "",
+      Function = "",
+		-- Constructor = "",
+      Constructor = "",
+		-- Field = "",
+      Field = "ﰠ",
+		-- Variable = "",
+		Variable = "",
+      --Variable = "",
+		-- Class = "",
+      Class = "ﴯ",
+      Interface = "",
+	   -- Module = "",
+      Module = "",
+		-- Property = "",
+      Property = "ﰠ",
+		-- Unit = "",
+      Unit = "塞",
+      Value = "",
+      Enum = "",
+		-- Keyword = "",
+      Keyword = "",
+		-- Snippet = "",
+	   Snippet = "",
+      -- Snippet = "",
+      Color = "",
+      File = "",
+		-- Reference = "",
+      Reference = "",
+      Folder = "",
+      EnumMember = "",
+	   Constant = "",
+      -- Constant = "",
+		Struct = "",
+      -- Struct = "פּ",
+      Event = "",
+      Operator = "",
+		TypeParameter = ""
+    },
+})
 EOF
 
 " -------cmp---
@@ -2138,7 +2284,7 @@ formatting = {
       nvim_lua = "(Lua)",
       latex_symbols = "(Latex)",
       calc="(Calc)",
-			path = "(Path)",
+		path = "(Path)",
     })
   }),  
 },
@@ -2267,7 +2413,7 @@ EOF
 
 
 
-
+" TODO: lsp_signature
 lua << EOF
  cfg = {
   debug = false, -- set to true to enable debug logging
@@ -2296,7 +2442,7 @@ lua << EOF
   hint_enable = true, -- virtual hint enable
   hint_prefix = "",  -- Panda for parameter
   hint_scheme = "String",
-  hi_parameter = "Search", -- how your parameter will be highlight
+  hi_parameter = "Search", --LspSignatureActiveParameter  how your parameter will be highlight
   max_height = 32, -- max height of signature floating_window, if content is more than max_height, you can scroll down
                    -- to view the hiding contents
   max_width = 60, -- max_width of signature floating_window, line will be wrapped if exceed max_width
@@ -2315,14 +2461,15 @@ lua << EOF
   transparency = nil, -- disabled by default, allow floating win transparent value 1~100
   shadow_blend = 36, -- if you using shadow as border use this set the opacity
   shadow_guibg = 'Black', -- if you using shadow as border use this set the color e.g. 'Green' or '#121315'
-  timer_interval = 100, -- default timer check interval set to lower value if you want to reduce latency
   toggle_key = nil -- toggle signature on and off in insert mode,  e.g. toggle_key = '<M-x>'
 }
 
 -- recommended:
 require'lsp_signature'.setup(cfg) -- no need to specify bufnr if you don't use toggle_key
 EOF
+" TODO: 自动加载
 lua << EOF
+timer_interval = 200, -- default timer check interval set to lower value if you want to reduce latency
 require"fidget".setup{ 
 text = {
     spinner = "zip", -- animation shown when tasks are ongoing
@@ -2606,6 +2753,51 @@ EOF
 "     }
 " })
 " EOF
+" TODO: alpha-nvim
+lua << EOF
+  local alpha = require("alpha")
+  local dashboard = require'alpha.themes.dashboard'
+  dashboard.section.header.val = {
+ 		[[⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿]],
+		[[⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⣠⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿]],
+		[[⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣡⣾⣿⣿⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⣟⠻⣿⣿⣿⣿⣿⣿⣿⣿]],
+		[[⣿⣿⣿⣿⣿⣿⣿⣿⡿⢫⣷⣿⣿⣿⣿⣿⣿⣿⣾⣯⣿⡿⢧⡚⢷⣌⣽⣿⣿⣿⣿⣿⣶⡌⣿⣿⣿⣿⣿⣿]],
+		[[⣿⣿⣿⣿⣿⣿⣿⣿⠇⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣮⣇⣘⠿⢹⣿⣿⣿⣿⣿⣻⢿⣿⣿⣿⣿⣿]],
+		[[⣿⣿⣿⣿⣿⣿⣿⣿⠀⢸⣿⣿⡇⣿⣿⣿⣿⣿⣿⣿⣿⡟⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣻⣿⣿⣿⣿]],
+		[[⣿⣿⣿⣿⣿⣿⣿⡇⠀⣬⠏⣿⡇⢻⣿⣿⣿⣿⣿⣿⣿⣷⣼⣿⣿⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⢻⣿⣿⣿⣿]],
+		[[⣿⣿⣿⣿⣿⣿⣿⠀⠈⠁⠀⣿⡇⠘⡟⣿⣿⣿⣿⣿⣿⣿⣿⡏⠿⣿⣟⣿⣿⣿⣿⣿⣿⣿⣿⣇⣿⣿⣿⣿]],
+		[[⣿⣿⣿⣿⣿⣿⡏⠀⠀⠐⠀⢻⣇⠀⠀⠹⣿⣿⣿⣿⣿⣿⣩⡶⠼⠟⠻⠞⣿⡈⠻⣟⢻⣿⣿⣿⣿⣿⣿⣿]],
+		[[⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⢿⠀⡆⠀⠘⢿⢻⡿⣿⣧⣷⢣⣶⡃⢀⣾⡆⡋⣧⠙⢿⣿⣿⣟⣿⣿⣿⣿]],
+		[[⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⡥⠂⡐⠀⠁⠑⣾⣿⣿⣾⣿⣿⣿⡿⣷⣷⣿⣧⣾⣿⣿⣿⣿⣿⣿⣿]],
+		[[⣿⣿⡿⣿⣍⡴⠆⠀⠀⠀⠀⠀⠀⠀⠀⣼⣄⣀⣷⡄⣙⢿⣿⣿⣿⣿⣯⣶⣿⣿⢟⣾⣿⣿⢡⣿⣿⣿⣿⣿]],
+		[[⣿⡏⣾⣿⣿⣿⣷⣦⠀⠀⠀⢀⡀⠀⠀⠠⣭⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⣡⣾⣿⣿⢏⣾⣿⣿⣿⣿⣿]],
+		[[⣿⣿⣿⣿⣿⣿⣿⣿⡴⠀⠀⠀⠀⠀⠠⠀⠰⣿⣿⣿⣷⣿⠿⠿⣿⣿⣭⡶⣫⠔⢻⢿⢇⣾⣿⣿⣿⣿⣿⣿]],
+		[[⣿⣿⣿⡿⢫⣽⠟⣋⠀⠀⠀⠀⣶⣦⠀⠀⠀⠈⠻⣿⣿⣿⣾⣿⣿⣿⣿⡿⣣⣿⣿⢸⣾⣿⣿⣿⣿⣿⣿⣿]],
+		[[⡿⠛⣹⣶⣶⣶⣾⣿⣷⣦⣤⣤⣀⣀⠀⠀⠀⠀⠀⠀⠉⠛⠻⢿⣿⡿⠫⠾⠿⠋⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿]],
+		[[⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣀⡆⣠⢀⣴⣏⡀⠀⠀⠀⠉⠀⠀⢀⣠⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿]],
+		[[⠿⠛⠛⠛⠛⠛⠛⠻⢿⣿⣿⣿⣿⣯⣟⠷⢷⣿⡿⠋⠀⠀⠀⠀⣵⡀⢠⡿⠋⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿]],
+		[[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠛⢿⣿⣿⠂⠀⠀⠀⠀⠀⢀⣽⣿⣿⣿⣿⣿⣿⣿⣍⠛⠿⣿⣿⣿⣿⣿⣿]],
+	}
+   
+     dashboard.section.buttons.val = {
+
+             dashboard.button("<leader>col", "  Scheme change", ":Telescope colorscheme<cr>"),
+             dashboard.button("<leader>e", "  New file" , ":ene <BAR> startinsert <CR>"),
+--             dashboard.button("<leader>fre", "  File frecency",":Telescope frecency<cr>"),
+		       dashboard.button("<leader>his", "  File history",":Telescope oldfiles<cr>"),
+		       dashboard.button("<leader>pro", "  Project find",":Telescope project<cr>"),
+		       dashboard.button("<leader>fin", "  File find",":Telescope find_files<cr>"),
+		       dashboard.button("<leader>wfd", "  Word find",":Telescope live_grep<cr>"),
+             dashboard.button( "q", "  Quit NVIM" , ":qa<CR>"),
+         }
+        -- local handle = io.popen('fortune')
+        -- local fortune = handle:read("*a")
+        -- handle:close()
+        -- dashboard.section.footer.val = fortune
+        -- dashboard.config.opts.noautocmd = true
+        -- vim.cmd[[autocmd User AlphaReady echo 'ready']]
+         alpha.setup(dashboard.config)
+EOF
 " ==================== Terminal Colors ====================
 let g:terminal_color_0  = '#000000'
 let g:terminal_color_1  = '#FF5555'
