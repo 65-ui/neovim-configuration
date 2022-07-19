@@ -1,6 +1,6 @@
 lua << EOF
 local lualine = require('lualine')
-local navic = require('nvim-navic')
+--local navic = require('nvim-navic')
 local function keymap()
   if vim.opt.iminsert:get() > 0 and vim.b.keymap_name then
     return '⌨ ' .. vim.b.keymap_name
@@ -164,7 +164,7 @@ ins_left {
 
 
 
-ins_left {navic.get_location, cond = navic.is_available}
+--ins_left {navic.get_location, cond = navic.is_available}
 
 -- ins_left { 'progress', color = { fg = colors.fg, gui = 'bold' } }
 

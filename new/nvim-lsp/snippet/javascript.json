@@ -1,5 +1,5 @@
 {
-	"console": {
+"console": {
 		"prefix": ["log 打印"],
 		"body": ["console.log('$1');", "$2"],
 		"description": "Log output to console"
@@ -18,5 +18,12 @@
 		"prefix": ["path 插件"],
 		"body": ["const path = require('path')"],
 		"description": "node path"
+	},
+	"func": {
+     "prefix": ["func~"],
+		 "body": [
+			  "function (){$1}"
+		],
+	  "description": "function 函数"
 	}
 }

@@ -65,9 +65,9 @@ set number
 set relativenumber
 set cursorline
 set noexpandtab
-set tabstop=3
-set shiftwidth=4
-set softtabstop=4
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 set autoindent
 set list
 set listchars=tab:\|\ ,trail:▫
@@ -250,8 +250,10 @@ func! CompileRunGcc()
 	elseif &filetype == 'java'
 		set splitbelow
 		:sp
-		:res -5
-		term javac % && time java %<
+		" :res -5
+		" term javac % && time java %<
+		" :term javac % && time java %
+		:term java %
 	elseif &filetype == 'sh'
 		:!time bash %
 	elseif &filetype == 'python'
@@ -272,7 +274,7 @@ func! CompileRunGcc()
 		set splitbelow
 		:sp
 		":term export DEBUG="INFO,ERROR,WARNING"; node --trace-warnings .
-	   :term node %
+	  :term node %
 	elseif &filetype == 'racket'
 
 		set splitbelow
@@ -325,10 +327,10 @@ Plug 'saadparwaiz1/cmp_luasnip'
 " Plug 'dcampos/nvim-snippy'
 " Plug 'dcampos/cmp-snippy'
 " TODO:
-" Plug 'fgheng/winbar.nvim'
+Plug 'fgheng/winbar.nvim'
 Plug 'ray-x/lsp_signature.nvim'
-" Plug 'SmiteshP/nvim-gps'
-Plug 'SmiteshP/nvim-navic'
+Plug 'SmiteshP/nvim-gps'
+" Plug 'SmiteshP/nvim-navic'
 Plug 'windwp/nvim-autopairs'
 
 
@@ -379,7 +381,7 @@ Plug 'tanvirtin/monokai.nvim'
 " Status line
 " Plug 'theniceboy/eleline.vim', { 'branch': 'no-scrollbar' }
 " Plug 'hoob3rt/lualine.nvim'
-" Plug 'feline-nvim/feline.nvim'
+" Plug 'feline-nvim/feline.nvim', { 'branch': '0.5-compat' }
 " Plug 'https://github.com/windwp/windline.nvim'
 Plug 'nvim-lualine/lualine.nvim'
 "
@@ -457,9 +459,9 @@ Plug 'lewis6991/gitsigns.nvim'
 
 
 " Markdown
-" Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
+Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
 " Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle', 'for': ['text', 'markdown', 'vim-plug'] }
-" Plug 'mzlogin/vim-markdown-toc', { 'for': ['gitignore', 'markdown', 'vim-plug'] }
+Plug 'mzlogin/vim-markdown-toc', { 'for': ['gitignore', 'markdown', 'vim-plug'] }
 " Plug 'dkarter/bullets.vim'
 "
 " Other filetypes
@@ -556,7 +558,6 @@ require("nvim-web-devicons").set_icon {
 		},
 	css = {
 		icon = '',
-		color = '#61afef',
 		name = 'css',
 		},
 	deb = {
@@ -676,6 +677,7 @@ EOF
 
 lua << EOF
 require("nvim-tree").setup { -- BEGIN_DEFAULT_OPTS
+     update_cwd=true,
       auto_reload_on_write = true,
       create_in_closed_folder = false,
       disable_netrw = false,
@@ -693,12 +695,12 @@ require("nvim-tree").setup { -- BEGIN_DEFAULT_OPTS
       reload_on_bufenter = false,
       respect_buf_cwd = false,
       view = {
-        adaptive_size = false,
+        adaptive_size = true,
         centralize_selection = false,
         width = 30,
         height = 30,
-        hide_root_folder = false,
-        side = "left",
+        hide_root_folder = true,
+        side = "right",
         preserve_window_proportions = false,
         number = false,
         relativenumber = false,
@@ -706,7 +708,6 @@ require("nvim-tree").setup { -- BEGIN_DEFAULT_OPTS
         mappings = {
           custom_only = false,
           list = {
-            -- user mappings go here
           },
         },
       },
@@ -738,10 +739,10 @@ require("nvim-tree").setup { -- BEGIN_DEFAULT_OPTS
             git = true,
           },
           glyphs = {
-            default = "",
+            default = "",
             symlink = "",
             folder = {
-              arrow_closed = "",
+              arrow_closed ="",
               arrow_open = "",
               default = "",
               open = "",
@@ -751,11 +752,11 @@ require("nvim-tree").setup { -- BEGIN_DEFAULT_OPTS
               symlink_open = "",
             },
             git = {
-              unstaged = "✗",
-              staged = "✓",
+              unstaged = "",
+              staged = "S",
               unmerged = "",
               renamed = "➜",
-              untracked = "★",
+              untracked = "U",
               deleted = "",
               ignored = "◌",
             },
@@ -764,15 +765,19 @@ require("nvim-tree").setup { -- BEGIN_DEFAULT_OPTS
         special_files = { "Cargo.toml", "Makefile", "README.md", "readme.md" },
       },
       hijack_directories = {
-        enable = true,
+        enable = false,
         auto_open = true,
       },
       update_focused_file = {
-        enable = false,
-        update_root = false,
+        enable = true,
+        update_root = true,
         ignore_list = {},
       },
-      ignore_ft_on_setup = {},
+      ignore_ft_on_setup = {
+				    "startify",
+						"dashboard",
+					  "alpha",
+				},
       system_open = {
         cmd = "",
         args = {},
@@ -789,8 +794,8 @@ require("nvim-tree").setup { -- BEGIN_DEFAULT_OPTS
       },
       filters = {
         dotfiles = false,
-        custom = {},
-        exclude = {},
+        custom = {".git"},
+        exclude = {".gitignore"},
       },
       filesystem_watchers = {
         enable = false,
@@ -800,7 +805,7 @@ require("nvim-tree").setup { -- BEGIN_DEFAULT_OPTS
       git = {
         enable = true,
         ignore = true,
-        timeout = 400,
+        timeout = 500,
       },
       actions = {
         use_system_clipboard = true,
@@ -1971,6 +1976,7 @@ require('lspconfig')['pyright'].setup{
     flags = lsp_flags,
 }
 require('lspconfig')['tsserver'].setup{
+	capabilities = capabilities,
     on_attach = on_attach,
     flags = lsp_flags,
 }
@@ -1978,6 +1984,16 @@ require('lspconfig')['cssls'].setup{
     on_attach = on_attach,
     flags = lsp_flags,
 }
+require('lspconfig')['html'].setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+}
+require('lspconfig')['jdtls'].setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+}
+
+
 
 require'lspconfig'.sumneko_lua.setup {
 	cmd = { "lua-language-server", "--locale=zh-cn" },
@@ -2007,8 +2023,9 @@ require'lspconfig'.pyright.setup{}
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 require'lspconfig'.cssls.setup {
-	  capabilities = capabilities,
+	capabilities = capabilities,
 }
+
 require'lspconfig'.tsserver.setup{
 cmd={ "typescript-language-server", "--stdio" },
 filetypes={ "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
@@ -2070,6 +2087,8 @@ filetypes={
 },
 }
 require'lspconfig'.jsonls.setup{
+capabilities = capabilities,
+on_attach = custom_attach,
 cmd={ "vscode-json-language-server", "--stdio" },
 filetypes={ "json", "jsonc" },
 settings = {
@@ -2077,7 +2096,8 @@ settings = {
 	    schemas = require('schemastore').json.schemas(),
        schemas = {
 						{
-							fileMatch = { "package.json" },
+
+								fileMatch = { "package.json" },
 							url = "https://json.schemastore.org/package.json",
 						},
 						{
@@ -2120,6 +2140,22 @@ settings = {
 							fileMatch = { "/.github/workflows/*" },
 							url = "https://json.schemastore.org/github-workflow.json",
 						},
+					  {
+						 fileMatch={".json"},
+							url = "https://raw.githubusercontent.com/Yash-Singh1/vscode-snippets-json-schema/main/schema.json",
+							},
+					  {
+						 fileMatch={".json"},
+							url = "https://json.schemastore.org/csslintrc.json",
+							},
+
+
+{
+						 fileMatch={"html.json"},
+							url = "https://json.schemastore.org/htmlhint.json",
+							},
+
+
 					},
 	    validate = { enable = true },
 	},
@@ -2128,9 +2164,9 @@ init_options={
   provideFormatter = true
 	},
 }
-
 require 'lspconfig'.eslint.setup{}
-require'lspconfig'.vuels.setup{}
+require 'lspconfig'.vuels.setup{}
+require 'lspconfig'.jdtls.setup{}
 EOF
 " TODO: 格式化
 lua << EOF
@@ -2149,6 +2185,7 @@ require('lspkind').init({
     -- default: symbol
     -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
     mode = 'symbol_text',
+		maxwidth = 50;
 
     -- default symbol map
     -- can be either 'default' (requires nerd-fonts font) or
@@ -2280,7 +2317,7 @@ formatting = {
       nvim_lua = "(Lua)",
       latex_symbols = "(Latex)",
       calc="(Calc)",
-		path = "(Path)",
+	  	path = "(Path)",
     })
   }),  
 },
@@ -2289,8 +2326,8 @@ formatting = {
       { name = 'nvim_lsp' },
       { name = 'vsnip' }, -- For vsnip users.
       { name = 'luasnip' }, -- For luasnip users.
---      { name = 'ultisnips' }, -- For ultisnips users.
---    { name = 'snippy' }, -- For snippy users.
+      { name = 'ultisnips' }, -- For ultisnips users.
+    { name = 'snippy' }, -- For snippy users.
     }, {
       { name = 'buffer' },
 			{ name = "path"  },
@@ -2489,7 +2526,7 @@ local saga = require 'lspsaga'
 --kind[type_number][2] = icon -- see lua/lspsaga/lspkind.lua
 
 -- use default config
---saga.init_lsp_saga()
+saga.init_lsp_saga()
 
 -- use custom config
 saga.init_lsp_saga({
@@ -2549,19 +2586,21 @@ code_action_keys = {
 rename_action_quit = "<C-c>",
 definition_preview_icon = "  ",
 -- show symbols in winbar must nightly
-symbol_in_winbar = {
-    in_custom = false,
-    enable = false,
-    separator = ' ',
-    show_file = true,
-    click_support = false,
-},
+--symbol_in_winbar = {
+--    in_custom = false,
+--    enable = false,
+--    separator = ' ',
+--    show_file = true,
+--    click_support = false,
+--},
 
 -- if you don't use nvim-lspconfig you must pass your server name and
 -- the related filetypes into this table
 -- like server_filetype_map = { metals = { "sbt", "scala" } }
 server_filetype_map = {},
 })
+
+
 EOF
 
 
@@ -2652,135 +2691,135 @@ lua << EOF
 vim.cmd [[autocmd CursorHold,CursorHoldI * lua require('nvim-lightbulb').update_lightbulb()]]
 EOF
 
-lua << EOF
-local navic = require("nvim-navic")
-
-require("lspconfig").tsserver.setup {
-    on_attach = function(client, bufnr)
-        navic.attach(client, bufnr)
-    end
-}
-require("lspconfig").pyright.setup {
-    on_attach = function(client, bufnr)
-        navic.attach(client, bufnr)
-    end
-}
-require("lspconfig").sumneko_lua.setup {
-    on_attach = function(client, bufnr)
-        navic.attach(client, bufnr)
-    end
-}
-require("lspconfig").jsonls.setup {
-    on_attach = function(client, bufnr)
-        navic.attach(client, bufnr)
-    end
-}
-
-navic.setup {
-    icons = {
-        File          = " ",
-        Module        = " ",
-        Namespace     = " ",
-        Package       = " ",
-        Class         = " ",
-        Method        = " ",
-        Property      = " ",
-        Field         = " ",
-        Constructor   = " ",
-        Enum          = "練",
-        Interface     = "練",
-        Function      = " ",
-        Variable      = " ",
-        Constant      = " ",
-        String        = " ",
-        Number        = " ",
-        Boolean       = "◩ ",
-        Array         = " ",
-        Object        = " ",
-        Key           = " ",
-        Null          = "ﳠ ",
-        EnumMember    = " ",
-        Struct        = " ",
-        Event         = " ",
-        Operator      = " ",
-        TypeParameter = " ",
-    },
-    highlight = false,
-    separator = " > ",
-    depth_limit = 0,
-    depth_limit_indicator = "..",
-}
-
-vim.api.nvim_set_hl(0, "NavicIconsFile",          {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicIconsModule",        {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicIconsNamespace",     {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicIconsPackage",       {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicIconsClass",         {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicIconsMethod",        {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicIconsProperty",      {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicIconsField",         {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicIconsConstructor",   {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicIconsEnum",          {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicIconsInterface",     {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicIconsFunction",      {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicIconsVariable",      {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicIconsConstant",      {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicIconsString",        {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicIconsNumber",        {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicIconsBoolean",       {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicIconsArray",         {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicIconsObject",        {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicIconsKey",           {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicIconsNull",          {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicIconsEnumMember",    {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicIconsStruct",        {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicIconsEvent",         {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicIconsOperator",      {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicIconsTypeParameter", {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicText",               {default = true, bg = "#000000", fg = "#ffffff"})
-vim.api.nvim_set_hl(0, "NavicSeparator",          {default = true, bg = "#000000", fg = "#ffffff"})
-EOF
-
-
 " lua << EOF
-" require('winbar').setup({
-"     enabled = true, -- 是否启动winbar
-" 	
-"     show_file_path = true, -- 是否显示文件路径
-"     show_symbols = true, -- 是否显示函数标签
+" local navic = require("nvim-navic")
 "
-"     -- 颜色配置，为空，将使用默认配色
-"     colors = {
-"         path = '', -- 路径的颜色，比如#ababab
-"         file_name = '', -- 文件名称的颜色，比如#acacac
-"         symbols = '',  -- 函数颜色
-"     },
+" require("lspconfig").tsserver.setup {
+"     on_attach = function(client, bufnr)
+"         navic.attach(client, bufnr)
+"     end
+" }
+" require("lspconfig").pyright.setup {
+"     on_attach = function(client, bufnr)
+"         navic.attach(client, bufnr)
+"     end
+" }
+" require("lspconfig").sumneko_lua.setup {
+"     on_attach = function(client, bufnr)
+"         navic.attach(client, bufnr)
+"     end
+" }
+" require("lspconfig").jsonls.setup {
+"     on_attach = function(client, bufnr)
+"         navic.attach(client, bufnr)
+"     end
+" }
 "
-"     -- 图标配置
+" navic.setup {
 "     icons = {
-"         seperator = '>', -- 路径分割符号
-"         editor_state = '●',
-"         lock_icon = '',
+"         File          = " ",
+"         Module        = " ",
+"         Namespace     = " ",
+"         Package       = " ",
+"         Class         = " ",
+"         Method        = " ",
+"         Property      = " ",
+"         Field         = " ",
+"         Constructor   = " ",
+"         Enum          = "練",
+"         Interface     = "練",
+"         Function      = " ",
+"         Variable      = " ",
+"         Constant      = " ",
+"         String        = " ",
+"         Number        = " ",
+"         Boolean       = "◩ ",
+"         Array         = " ",
+"         Object        = " ",
+"         Key           = " ",
+"         Null          = "ﳠ ",
+"         EnumMember    = " ",
+"         Struct        = " ",
+"         Event         = " ",
+"         Operator      = " ",
+"         TypeParameter = " ",
 "     },
+"     highlight = false,
+"     separator = " > ",
+"     depth_limit = 0,
+"     depth_limit_indicator = "..",
+" }
 "
-"     -- 关闭winbar的窗口
-"     exclude_filetype = {
-"         'help',
-"         'startify',
-"         'dashboard',
-"         'packer',
-"         'neogitstatus',
-"         'NvimTree',
-"         'Trouble',
-"         'alpha',
-"         'lir',
-"         'Outline',
-"         'spectre_panel',
-"         'toggleterm',
-"         'qf',
-"     }
-" })
+" vim.api.nvim_set_hl(0, "NavicIconsFile",          {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicIconsModule",        {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicIconsNamespace",     {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicIconsPackage",       {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicIconsClass",         {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicIconsMethod",        {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicIconsProperty",      {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicIconsField",         {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicIconsConstructor",   {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicIconsEnum",          {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicIconsInterface",     {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicIconsFunction",      {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicIconsVariable",      {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicIconsConstant",      {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicIconsString",        {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicIconsNumber",        {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicIconsBoolean",       {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicIconsArray",         {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicIconsObject",        {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicIconsKey",           {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicIconsNull",          {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicIconsEnumMember",    {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicIconsStruct",        {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicIconsEvent",         {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicIconsOperator",      {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicIconsTypeParameter", {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicText",               {default = true, bg = "#000000", fg = "#ffffff"})
+" vim.api.nvim_set_hl(0, "NavicSeparator",          {default = true, bg = "#000000", fg = "#ffffff"})
 " EOF
+"
+
+lua << EOF
+require('winbar').setup({
+    enabled = true, -- 是否启动winbar
+
+    show_file_path = true, -- 是否显示文件路径
+    show_symbols = true, -- 是否显示函数标签
+
+    -- 颜色配置，为空，将使用默认配色
+    colors = {
+        path = '', -- 路径的颜色，比如#ababab
+        file_name = '', -- 文件名称的颜色，比如#acacac
+        symbols = '',  -- 函数颜色
+    },
+
+    -- 图标配置
+    icons = {
+        seperator = '>', -- 路径分割符号
+        editor_state = '●',
+        lock_icon = '',
+    },
+
+    -- 关闭winbar的窗口
+    exclude_filetype = {
+        'help',
+        'startify',
+        'dashboard',
+        'packer',
+        'neogitstatus',
+        'NvimTree',
+        'Trouble',
+        'alpha',
+        'lir',
+        'Outline',
+        'spectre_panel',
+        'toggleterm',
+        'qf',
+    }
+})
+EOF
 " TODO: alpha-nvim
 lua << EOF
   local alpha = require("alpha")
@@ -2826,6 +2865,49 @@ lua << EOF
         -- vim.cmd[[autocmd User AlphaReady echo 'ready']]
          alpha.setup(dashboard.config)
 EOF
+
+
+lua << EOF
+require("nvim-gps").setup({
+ disable_icons = false,
+
+icons = {
+    ["class-name"] = " ",
+    ["method-name"] = " ",
+    ["container-name"] ='⛶ ',
+		["function-name"] = " ",
+    ["tag-name"] = " ",
+    ["mapping-name"] = " ",
+    ["sequence-name"] = " ",
+    ["null-name"] = " ",
+    ["boolean-name"] = "蘒 ",
+    ["integer-name"] = " ",
+    ["float-name"] = " ",
+    ["string-name"] = " ",
+    ["array-name"] = " ",
+    ["object-name"] = " ",
+    ["number-name"] = " ",
+    ["table-name"] = " ",
+    ["date-name"] = " ",
+    ["date-time-name"] = " ",
+    ["inline-table-name"] = " ",
+    ["time-name"] = " ",
+    ["module-name"] = " ",
+  },
+	languages = {
+   ["html"]=true,
+	 ["Javascript"]=true,
+	 ["JSON"]=true,
+	 ["Lua"]=true,
+	 ["Python"]=true,
+	 ["Typescript"]=true,
+	},
+	depth = 0,
+	separator = ' > ',
+	depth_limit_indicator = "..",
+  text_hl = "Winbar",
+})
+EOF
 " ==================== Terminal Colors ====================
 let g:terminal_color_0  = '#000000'
 let g:terminal_color_1  = '#FF5555'
@@ -2852,4 +2934,9 @@ exec "nohlsearch"
 if has_machine_specific_file == 0
 	exec "e ~/.config/nvim/_machine_specific.vim"
 endif
+
+
+
+
+
 
