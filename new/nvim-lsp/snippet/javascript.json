@@ -1,7 +1,7 @@
 {
 "console": {
 		"prefix": ["log 打印"],
-		"body": ["console.log('$1');", "$2"],
+		"body": ["console.log($1);", "$2"],
 		"description": "Log output to console"
 	},
 	"fs 插件": {

@@ -294,6 +294,8 @@ call plug#begin('$HOME/.config/nvim/plugged')
 
 " Github Copilot
 " Plug 'github/copilot.vim'
+
+Plug 'yianwillis/vimcdoc'
 Plug 'dstein64/vim-startuptime'
 " TODO: 调试适配器协议
 Plug 'goolord/alpha-nvim'
@@ -311,6 +313,7 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-calc'
+" Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
 " For vsnip users.
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
@@ -695,7 +698,7 @@ require("nvim-tree").setup { -- BEGIN_DEFAULT_OPTS
       reload_on_bufenter = false,
       respect_buf_cwd = false,
       view = {
-        adaptive_size = true,
+        adaptive_size = false,
         centralize_selection = false,
         width = 30,
         height = 30,
@@ -798,7 +801,7 @@ require("nvim-tree").setup { -- BEGIN_DEFAULT_OPTS
         exclude = {".gitignore"},
       },
       filesystem_watchers = {
-        enable = false,
+        enable = true,
         interval = 100,
         debounce_delay = 50,
       },
