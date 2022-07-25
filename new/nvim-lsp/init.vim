@@ -58,6 +58,8 @@ set smartindent
 set termguicolors
 set title
 let &t_ut=''
+
+
 set autochdir
 set exrc
 set secure
@@ -90,7 +92,6 @@ set ignorecase
 set shortmess+=c
 set inccommand=split
 set completeopt=longest,noinsert,menuone,noselect,preview
-set lazyredraw
 set visualbell
 silent !mkdir -p $HOME/.config/nvim/tmp/backup
 silent !mkdir -p $HOME/.config/nvim/tmp/undo
@@ -98,15 +99,28 @@ silent !mkdir -p $HOME/.config/nvim/tmp/undo
 set backupdir=$HOME/.config/nvim/tmp/backup,.
 set directory=$HOME/.config/nvim/tmp/backup,.
 if has('persistent_undo')
-	set undofile
-	set undodir=$HOME/.config/nvim/tmp/undo,.
 endif
+set lazyredraw
+set undofile
 set colorcolumn=100
 set updatetime=100
 set virtualedit=block
 
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+set undodir=$HOME/.config/nvim/tmp/undo,.
 
+if has('mouse')
+	if has('gui_running')||(&term=~ 'xterm'&& !has('mac'))
+		set mouse=a
+	else
+		set mouse=nvi
+	endif
+endif
+set fileencodings=ucs-bom,utf-8,gb18030,latin1
+
+if has('gui_running')   
+	set guifont=Courier_New:h10
+endif
 
 " ==================== Terminal Behaviors ====================
 let g:neoterm_autoscroll = 1
@@ -294,10 +308,11 @@ call plug#begin('$HOME/.config/nvim/plugged')
 
 " Github Copilot
 " Plug 'github/copilot.vim'
+Plug 'mfussenegger/nvim-dap'
+
 
 Plug 'yianwillis/vimcdoc'
 Plug 'dstein64/vim-startuptime'
-" TODO: 调试适配器协议
 Plug 'goolord/alpha-nvim'
 " Plug 'akinsho/toggleterm.nvim', {'tag' : 'v2.*'}
 Plug 'b0o/schemastore.nvim'
@@ -307,8 +322,8 @@ Plug 'williamboman/nvim-lsp-installer'
 Plug 'neovim/nvim-lspconfig'
 Plug 'onsails/lspkind.nvim'
 
+" TODO: 调试适配器协议
 Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
@@ -317,11 +332,23 @@ Plug 'hrsh7th/cmp-calc'
 " For vsnip users.
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/cmp-buffer'
 
 " For luasnip users.
 Plug 'L3MON4D3/LuaSnip'
 Plug 'saadparwaiz1/cmp_luasnip'
 
+" 异步完成框架
+
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+
+Plug 'https://git.sr.ht/~whynothugo/lsp_lines.nvim'
 " For ultisnips users.
 " Plug 'SirVer/ultisnips'
 " Plug 'quangnguyen30192/cmp-nvim-ultisnips'
@@ -800,11 +827,11 @@ require("nvim-tree").setup { -- BEGIN_DEFAULT_OPTS
         custom = {".git"},
         exclude = {".gitignore"},
       },
-      filesystem_watchers = {
-        enable = true,
-        interval = 100,
-        debounce_delay = 50,
-      },
+     -- filesystem_watchers = {
+     -- enable = false,
+     --   interval = 100,
+     --   debounce_delay = 50,
+     -- },
       git = {
         enable = true,
         ignore = true,
@@ -909,83 +936,100 @@ EOF
 
 " HACK: 主题  Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 lua << EOF
-local catppuccin = require("catppuccin")
-catppuccin.setup(
-{
-transparent_background = false,
-term_colors = false,
-styles = {
-	comments = "italic",
-	conditionals = "italic",
-	loops = "NONE",
-	functions = "NONE",
-	keywords = "NONE",
-	strings = "NONE",
-	variables = "NONE",
-	numbers = "NONE",
-	booleans = "NONE",
-	properties = "NONE",
-	types = "NONE",
-	operators = "NONE",
-},
-integrations = {
-	 treesitter = true,
-	native_lsp = {
-		enabled = true,
-		virtual_text = {
-			errors = "italic",
-			hints = "italic",
-			warnings = "italic",
-			information = "italic",
-		},
-		underlines = {
-			errors = "underline",
-			hints = "underline",
-			warnings = "underline",
-			information = "underline",
-		},
-	},
-	lsp_trouble = false,
-	cmp = true,
-	lsp_saga = false,
-	gitgutter = false,
-	gitsigns = true,
-	telescope = true,
-	nvimtree = {
-		enabled = true,
-		show_root = false,
-		transparent_panel = false,
-	},
-	neotree = {
+--vim.g.catppuccin_flavour = "frappe" -- latte, frappe, macchiato, mocha
+
+
+require("catppuccin").setup({
+	dim_inactive = {
 		enabled = false,
-		show_root = false,
-		transparent_panel = false,
+		shade = "dark",
+		percentage = 0.15,
 	},
-	which_key = false,
-	indent_blankline = {
-		enabled = true,
-		colored_indent_levels = false,
+	transparent_background = true,
+	term_colors = false,
+	compile = {
+		enabled = false,
+		path = vim.fn.stdpath "cache" .. "/catppuccin",
 	},
-	dashboard = true,
-	neogit = false,
-	vim_sneak = false,
-	fern = false,
-	barbar = false,
-	bufferline = true,
-	markdown = true,
-	lightspeed = false,
-	ts_rainbow = false,
-	hop = false,
-	notify = true,
-	telekasten = true,
-	symbols_outline = true,
-}
-}
-)
--- Lua
--- 如果您想“即时”切换 Catpuccin 风味，您可以使用该:Catppuccin <flavour>命令。
--- vim.g.catppuccin_flavour = "frappe" -- latte, frappe, macchiato, mocha
--- vim.cmd[[colorscheme catppuccin]]
+	styles = {
+		comments = {},
+		conditionals = {},
+		loops = {},
+		functions = {},
+		keywords = {},
+		strings = {},
+		variables = {},
+		numbers = {},
+		booleans = {},
+		properties = {},
+		types = {},
+		operators = {},
+	},
+	integrations = {
+		treesitter = true,
+		native_lsp = {
+			enabled = true,
+			virtual_text = {
+				errors = {},
+				hints = {},
+				warnings = {},
+				information = {},
+			},
+			underlines = {
+        errors = { "underline" },
+				hints = { "underline" },
+				warnings = { "underline" },
+				information = { "underline" },
+			},
+		},
+		coc_nvim = false,
+		lsp_trouble = false,
+		cmp = true,
+		lsp_saga = false,
+		gitgutter = false,
+		gitsigns = true,
+		leap = false,
+		telescope = true,
+		nvimtree = {
+			enabled = true,
+			show_root = true,
+			transparent_panel = false,
+		},
+		neotree = {
+			enabled = false,
+			show_root = true,
+			transparent_panel = false,
+		},
+		dap = {
+			enabled = false,
+			enable_ui = false,
+		},
+		which_key = false,
+		indent_blankline = {
+			enabled = true,
+			colored_indent_levels = false,
+		},
+		dashboard = true,
+		neogit = false,
+		vim_sneak = false,
+		fern = false,
+		barbar = false,
+		bufferline = true,
+		markdown = true,
+		lightspeed = false,
+		ts_rainbow = false,
+		hop = false,
+		notify = true,
+		telekasten = true,
+		symbols_outline = true,
+		mini = false,
+		aerial = false,
+		vimwiki = true,
+		beacon = true,
+	},
+})
+
+--vim.cmd [[colorscheme catppuccin]]
 EOF
 
 " HACK: 主题  Plug 'projekt0n/github-nvim-theme'
@@ -1029,7 +1073,11 @@ lua << EOF
 -- Example config in Lua  
 --NOTE: night storm day
 vim.g.tokyonight_style = "storm"
-vim.g.tokyonight_italic_functions = false
+vim.g.tokyonight_transparent=true
+vim.g.tokyonight_transparent_sidebar=true
+vim.g.tokyonight_dark_float=true
+vim.g.tokyonight_hide_inactive_statusline=true
+vim.g.tokyonight_italic_functions = true
 vim.g.tokyonight_italic_comments=false
 vim.g.tokyonight_italic_keywords=false
 vim.g.tokyonight_day_brightness=0.3
@@ -1080,7 +1128,7 @@ require('onedark').setup  {
 		background = true,    -- use background color for virtual text
 		},
 	}
--- require('onedark').load()
+--require('onedark').load()
 EOF
 " HACK: 主题  Plug 'sonokai'
 " let g:airline_theme = 'sonokai'
@@ -2170,6 +2218,7 @@ init_options={
 require 'lspconfig'.eslint.setup{}
 require 'lspconfig'.vuels.setup{}
 require 'lspconfig'.jdtls.setup{}
+require 'lspconfig'.intelephense.setup{}
 EOF
 " TODO: 格式化
 lua << EOF
@@ -2911,6 +2960,23 @@ icons = {
   text_hl = "Winbar",
 })
 EOF
+
+" TODO: lsp_lines.nvim
+lua << EOF
+require("lsp_lines").setup{
+vim.diagnostic.config({
+  virtual_text = false,
+	}),
+vim.keymap.set(
+  "",
+  "<Leader>di",
+  require("lsp_lines").toggle,
+  { desc = "Toggle lsp_lines" }
+)
+}
+EOF
+let g:python3_host_prog = "/usr/bin/python3"
+let g:deoplete#enable_at_startup = 1
 " ==================== Terminal Colors ====================
 let g:terminal_color_0  = '#000000'
 let g:terminal_color_1  = '#FF5555'
